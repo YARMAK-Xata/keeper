@@ -9,8 +9,12 @@ Keeper closes browser tabs you have told it to keep you away from. You pick the
 sites you do not want to visit, press Start session, and a pixel-art knight walks
 across the screen and closes those tabs whenever they appear.
 
-No account, no sign-in, no internet connection, no subscription. Nothing you type
-into it leaves your Mac.
+No account, no sign-in, no subscription. Nothing you type into it leaves your Mac.
+
+Once a day Keeper asks GitHub whether a newer version has come out, and tells you
+if one has. That is the only thing it ever sends over the internet, it says nothing
+about you, and it never installs anything by itself. To stop it, turn off "Check
+for updates automatically" in Settings.
 
 
 HOW TO INSTALL
@@ -68,8 +72,12 @@ Keeper закриває вкладки браузера, від яких ви п
 сайти, які не хочете відвідувати, натискаєте «Почати сесію», і піксельний лицар
 закриває ці вкладки щоразу, коли вони з'являються.
 
-Без акаунта, без входу, без інтернету, без підписки. Нічого з того, що ви вводите,
-не залишає ваш Mac.
+Без акаунта, без входу, без підписки. Нічого з того, що ви вводите, не залишає ваш Mac.
+
+Раз на день Keeper запитує GitHub, чи вийшла новіша версія, і повідомляє, якщо так.
+Це єдине, що він надсилає в інтернет; про вас він не каже нічого й нічого не
+встановлює сам. Щоб це припинити, вимкніть «Перевіряти оновлення автоматично» в
+параметрах.
 
 
 ЯК ВСТАНОВИТИ
@@ -129,8 +137,12 @@ wählst die Websites, die du nicht besuchen willst, drückst „Sitzung starten�
 ein Pixel-Ritter läuft über den Bildschirm und schließt diese Tabs, sobald sie
 auftauchen.
 
-Kein Account, keine Anmeldung, kein Internet, kein Abo. Nichts, was du eingibst,
-verlässt deinen Mac.
+Kein Account, keine Anmeldung, kein Abo. Nichts, was du eingibst, verlässt deinen Mac.
+
+Einmal täglich fragt Keeper bei GitHub nach, ob eine neuere Version erschienen ist,
+und sagt dir Bescheid. Das ist das Einzige, was es je ins Internet sendet, es verrät
+nichts über dich, und es installiert nie etwas von selbst. Zum Abschalten: „Automatisch
+nach Updates suchen" in den Einstellungen ausschalten.
 
 
 INSTALLIEREN
@@ -193,8 +205,13 @@ choisissez les sites que vous ne voulez pas visiter, vous appuyez sur « Démarr
 la session », et un chevalier en pixel art traverse l'écran et ferme ces onglets
 dès qu'ils apparaissent.
 
-Pas de compte, pas de connexion, pas d'internet, pas d'abonnement. Rien de ce que
-vous saisissez ne quitte votre Mac.
+Pas de compte, pas de connexion, pas d'abonnement. Rien de ce que vous saisissez ne
+quitte votre Mac.
+
+Une fois par jour, Keeper demande à GitHub si une version plus récente est parue et
+vous le dit le cas échéant. C'est la seule chose qu'il envoie sur internet, il ne dit
+rien sur vous, et il n'installe jamais rien tout seul. Pour l'arrêter, désactivez
+« Rechercher les mises à jour automatiquement » dans les réglages.
 
 
 INSTALLER
@@ -255,8 +272,13 @@ Keeper chiude le schede da cui gli hai chiesto di tenerti lontano. Scegli i siti
 che non vuoi visitare, premi «Avvia sessione», e un cavaliere in pixel art
 attraversa lo schermo e chiude quelle schede appena compaiono.
 
-Nessun account, nessun accesso, nessuna connessione, nessun abbonamento. Niente
-di quello che scrivi esce dal tuo Mac.
+Nessun account, nessun accesso, nessun abbonamento. Niente di quello che scrivi esce
+dal tuo Mac.
+
+Una volta al giorno Keeper chiede a GitHub se è uscita una versione più recente e te
+lo dice. È l'unica cosa che manda su internet, non dice nulla su di te e non installa
+mai niente da solo. Per fermarlo, disattiva "Cerca aggiornamenti automaticamente"
+nelle impostazioni.
 
 
 INSTALLARE
@@ -317,8 +339,13 @@ Keeper zamyka karty przeglądarki, od których masz się trzymać z daleka. Wybi
 witryny, których nie chcesz odwiedzać, naciskasz „Rozpocznij sesję”, a pikselowy
 rycerz przechodzi przez ekran i zamyka te karty, gdy tylko się pojawią.
 
-Bez konta, bez logowania, bez internetu, bez abonamentu. Nic z tego, co wpiszesz,
-nie opuszcza twojego Maca.
+Bez konta, bez logowania, bez abonamentu. Nic z tego, co wpiszesz, nie opuszcza
+twojego Maca.
+
+Raz dziennie Keeper pyta GitHuba, czy ukazała się nowsza wersja, i daje znać, jeśli
+tak. To jedyna rzecz, jaką wysyła przez internet, nie mówi nic o tobie i nigdy sam
+niczego nie instaluje. Aby to wyłączyć, odznacz „Automatycznie sprawdzaj
+uaktualnienia" w ustawieniach.
 
 
 INSTALACJA
@@ -379,8 +406,13 @@ Keeper закрывает вкладки браузера, от которых �
 пиксельный рыцарь идёт через экран и закрывает эти вкладки, как только они
 появляются.
 
-Без аккаунта, без входа, без интернета, без подписки. Ничего из того, что вы
-вводите, не покидает ваш Mac.
+Без аккаунта, без входа, без подписки. Ничего из того, что вы вводите, не покидает
+ваш Mac.
+
+Раз в день Keeper спрашивает GitHub, вышла ли более новая версия, и сообщает, если
+вышла. Это единственное, что он отправляет в интернет; о вас он не сообщает ничего и
+ничего не устанавливает сам. Чтобы это прекратить, выключите «Проверять обновления
+автоматически» в настройках.
 
 
 УСТАНОВКА

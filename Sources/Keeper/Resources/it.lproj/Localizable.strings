@@ -64,3 +64,12 @@
 "event.hidNoWindows" = "%@ non ha finestre da nascondere";
 "event.hidFailed" = "Impossibile nascondere %@";
 "knight.bubble.app" = "Stai provando ad aprire %@?";
+
+/* Updates */
+"update.available" = "Keeper %@ è disponibile";
+"update.action" = "Aggiorna";
+"checkbox.checkForUpdates" = "Cerca aggiornamenti automaticamente";
+"settings.updates.help" = "Keeper chiede a GitHub una volta al giorno se è uscita una versione più recente, e te lo dice. È attivo, ed è l'unica volta in cui Keeper usa la rete. Non invia niente su di te né su ciò che blocchi, e non installa mai nulla da solo. Disattivalo e Keeper non tocca più la rete affatto.";
+"update.checkNow" = "Cerca ora";
+"update.upToDate" = "Keeper è aggiornato.";
+"update.failed" = "GitHub non è raggiungibile. Riprova più tardi.";

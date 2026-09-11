@@ -31,6 +31,31 @@ struct StateHeader: View {
     }
 }
 
+/// A newer release exists. One line under the header, in the reading path — you meet it on the
+/// way to the button rather than having to go looking — and absent entirely the rest of the time,
+/// so nothing below it moves for a notice that is not there.
+///
+/// It offers a link, not an installer. Keeper has no code that could replace itself.
+struct UpdateLine: View {
+    @ObservedObject var checker: UpdateChecker
+
+    var body: some View {
+        if let release = checker.available {
+            HStack(spacing: Metrics.Row.iconGap) {
+                RowIcon(kind: .symbol("arrow.down.circle"))
+                Text(L.t("update.available", release.displayVersion))
+                    .font(Metrics.Typography.secondary)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                Spacer(minLength: Metrics.Space.step)
+                Button(L.t("update.action")) { checker.openReleasePage() }
+                    .buttonStyle(.link)
+                    .font(Metrics.Typography.secondary)
+            }
+        }
+    }
+}
+
 // MARK: - The list chrome both lists wear
 
 /// The label, the lock, and the rounded container a list sits in. Extracted so the sites list and

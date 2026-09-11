@@ -64,3 +64,12 @@
 "event.hidNoWindows" = "%@ n'a aucune fenêtre à masquer";
 "event.hidFailed" = "Impossible de masquer %@";
 "knight.bubble.app" = "Tu essaies d'ouvrir %@ ?";
+
+/* Updates */
+"update.available" = "Keeper %@ est disponible";
+"update.action" = "Mettre à jour";
+"checkbox.checkForUpdates" = "Rechercher les mises à jour automatiquement";
+"settings.updates.help" = "Keeper demande à GitHub une fois par jour si une version plus récente est parue, et vous le dit le cas échéant. C'est activé, et c'est la seule fois où Keeper utilise le réseau. Il n'envoie rien sur vous ni sur ce que vous bloquez, et n'installe jamais rien tout seul. Désactivez-le et Keeper ne touche plus du tout au réseau.";
+"update.checkNow" = "Rechercher maintenant";
+"update.upToDate" = "Keeper est à jour.";
+"update.failed" = "GitHub est injoignable. Réessayez plus tard.";

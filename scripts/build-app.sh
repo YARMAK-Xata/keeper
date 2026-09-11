@@ -2,17 +2,24 @@
 # Builds build/Keeper.app from the SwiftPM release binary.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-swift build -c release 2>&1 | tail -1
+# Built from a neutral scratch path on purpose. SwiftPM bakes the build-time location of the
+# resource bundle into the accessor behind `Bundle.module`, as a fallback for when the bundle is
+# not found beside the executable — so a release built in place ships a string naming whoever
+# built it and the directory they keep their work in. Inside the .app the bundle is always
+# adjacent, so the fallback is never used; this only decides what the string says.
+SCRATCH=${KEEPER_SCRATCH:-/tmp/keeper-build}
+swift build -c release --scratch-path "$SCRATCH" 2>&1 | tail -1
+RELEASE="$SCRATCH/release"
 APP=build/Keeper.app
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-cp .build/release/Keeper "$APP/Contents/MacOS/Keeper"
+cp "$RELEASE/Keeper" "$APP/Contents/MacOS/Keeper"
 cp Assets/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 
 # The strings tables travel twice on purpose: the SwiftPM resource bundle is what the app's own
 # lookups read, and the .lproj folders in Contents/Resources are what makes macOS treat the
 # bundle as localized, so AppKit's own menu items follow the same language.
-cp -R .build/release/Keeper_Keeper.bundle "$APP/Contents/Resources/"
+cp -R "$RELEASE/Keeper_Keeper.bundle" "$APP/Contents/Resources/"
 cp -R Sources/Keeper/Resources/*.lproj "$APP/Contents/Resources/"
 
 # The layered icon for macOS 26, compiled from Assets/AppIcon.icon into an Assets.car that
@@ -44,8 +51,8 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleName</key><string>Keeper</string>
   <key>CFBundleDisplayName</key><string>Keeper</string>
   <key>CFBundleIdentifier</key><string>dev.keeper.Keeper</string>
-  <key>CFBundleVersion</key><string>9</string>
-  <key>CFBundleShortVersionString</key><string>1.8</string>
+  <key>CFBundleVersion</key><string>10</string>
+  <key>CFBundleShortVersionString</key><string>1.9</string>
   <key>CFBundleExecutable</key><string>Keeper</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>

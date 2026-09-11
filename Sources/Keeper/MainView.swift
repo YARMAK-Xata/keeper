@@ -15,6 +15,8 @@ struct MainView: View {
     @AppStorage("blockedAppsText") private var storedApps = ""
     @AppStorage("draftSite") private var draft = ""
 
+    @ObservedObject private var updates = UpdateChecker.shared
+
     @State private var trusted = Permissions.isTrusted
     @State private var alertShown = Permissions.hasRequestedTrust
     @State private var tick = Date()
@@ -35,6 +37,7 @@ struct MainView: View {
             StateHeader(title: state.title(startedAt: session.startedAt),
                         subtitle: state.subtitle(siteCount: session.siteCount,
                                                  appCount: session.appCount))
+            UpdateLine(checker: updates)
             switch state {
             case .needsAccess: PermissionSection(alertShown: $alertShown)
             case .ready, .onDuty:
@@ -49,6 +52,7 @@ struct MainView: View {
         // put a seam across the window. The same material behind the whole thing removes it.
         .background(WindowGlass())
         .onAppear { session.openMainWindow = { openWindow(id: "main") } }
+        .onAppear { updates.checkIfDue() }
         .onReceive(trustCheck) { _ in trusted = Permissions.isTrusted }
         .onReceive(clockTick) { now in tick = now }
         .onChange(of: session.lastEvent) { _, _ in tick = Date() }

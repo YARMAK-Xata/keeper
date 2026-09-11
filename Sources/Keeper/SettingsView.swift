@@ -6,8 +6,11 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var session: SessionController
 
+    @ObservedObject private var updates = UpdateChecker.shared
+
     @State private var presence = Presence()
     @State private var openAtLogin = LoginItem.isEnabled
+    @AppStorage(UpdateChecker.enabledKey) private var checkForUpdates = true
 
     var body: some View {
         Form {
@@ -32,6 +35,37 @@ struct SettingsView: View {
                         // If the system refuses, put the switch back rather than lying about it.
                         if !LoginItem.setEnabled(on) { openAtLogin = LoginItem.isEnabled }
                     }
+            }
+
+            // The only place Keeper's one network request can be turned off. It is on by
+            // default, so this switch is the thing every document about Keeper points at.
+            Section {
+                Toggle(L.t("checkbox.checkForUpdates"), isOn: $checkForUpdates)
+                HStack(spacing: Metrics.Space.step) {
+                    Button(L.t("update.checkNow")) { updates.checkNow() }
+                        .disabled(!checkForUpdates || updates.status == .checking)
+                    switch updates.status {
+                    case .checking:
+                        ProgressView().controlSize(.small)
+                    case .upToDate:
+                        Text(L.t("update.upToDate"))
+                            .font(Metrics.Typography.secondary).foregroundStyle(.secondary)
+                    case .failed:
+                        Text(L.t("update.failed"))
+                            .font(Metrics.Typography.secondary).foregroundStyle(.secondary)
+                    case .idle:
+                        if let release = updates.available {
+                            Button(L.t("update.available", release.displayVersion)) {
+                                updates.openReleasePage()
+                            }
+                            .buttonStyle(.link)
+                        }
+                    }
+                }
+            } footer: {
+                Text(L.t("settings.updates.help"))
+                    .font(Metrics.Typography.secondary).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Section {

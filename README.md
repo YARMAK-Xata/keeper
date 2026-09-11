@@ -11,7 +11,7 @@ A pixel-art knight that closes browser tabs you told it to keep you away from.
    hides it.
 4. Press **Stop session** when you are done.
 
-No timers, no accounts, no network, no third-party packages. Keeper speaks English, Ukrainian,
+No timers, no accounts, no third-party packages. Keeper speaks English, Ukrainian,
 Russian, German, French, Italian and Polish, and follows your Mac rather than asking: set the
 system to Polish and Keeper is Polish. There is no language setting of its own.
 
@@ -38,6 +38,12 @@ thin outline and a filled pixel-art character among them reads as a blob at any 
 while Keeper waits and filled like smoked glass while a session runs, so you can tell at a glance
 whether the knight is on duty. He himself stays in the panel, in the window, and on screen during
 a session.
+
+Keeper registers itself as a login item the first time it runs, so it is there the next time you
+switch the Mac on — a guard you have to remember to start is one you forget on the day it matters.
+It is an ordinary login item: System Settings → General → Login Items lists it, **Open Keeper at
+login** in Settings toggles it, and turning it off anywhere sticks, because the registration
+happens once on a first run and never argues with you afterwards.
 
 **Show in menu bar** and **Show in Dock** let you decide where Keeper appears. It will not let you
 switch off both — whichever is the last one on stays on, so there is always a way back in.
@@ -96,7 +102,8 @@ same Accessibility access, with the same three-second cooldown when an app refus
 ## Security
 
 Accessibility access is the widest grant on a Mac, so `SECURITY.md` sets out what Keeper does with
-it: what it cannot do (talk to the network, start another program), what it never writes down
+it: the one network call it makes and what is in it, what it cannot do (start another program),
+what it never writes down
 (any page you visited), how the ⌘W keystroke is aimed rather than broadcast, and what is true that
 you may not like — it is not sandboxed, and it is signed but not notarized. It is worth reading
 before you install it, and it is short.
@@ -184,6 +191,25 @@ from the English it replaces, if a two-argument string uses `%@` twice where `%1
 needed, or if a `.lproj` folder is not listed in `CFBundleLocalizations` and so can never be
 chosen. The checks that matter most go through the *built* resource bundle rather than the files
 on disk: a folder SwiftPM failed to copy looks perfect on disk and wrong on someone else's Mac.
+
+## Updates
+
+Keeper tells you when a newer release is out. It asks GitHub once a day whether a release newer
+than this build has been published, and if so shows one line under the header with a link to it.
+
+**This is on by default**, and it is the only thing in the app that touches the network. It is
+switched off in Settings → *Check for updates automatically*, after which Keeper makes no network
+request of any kind. It sends nothing about you, and it never downloads or installs anything —
+Keeper has no code that could replace itself. `SECURITY.md` states this before anything else and
+sets out the request in full, down to what GitHub can infer from it; `NetworkSurfaceTests` fails
+the build if a second network call ever appears, if the address changes, or if switching the check
+off stops working.
+
+On by default is a real cost and it is paid deliberately: almost nobody opens Settings, so an
+opt-in notice reaches almost nobody, and an app that ships fixes its users never hear about is its
+own kind of risk. The trade is that every document describing Keeper has to say so plainly, which
+is why they all do.
+
 
 ## Limits
 

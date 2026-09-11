@@ -64,3 +64,12 @@
 "event.hidNoWindows" = "%@ hat kein Fenster zum Ausblenden";
 "event.hidFailed" = "%@ ließ sich nicht ausblenden";
 "knight.bubble.app" = "Willst du wirklich %@ öffnen?";
+
+/* Updates */
+"update.available" = "Keeper %@ ist verfügbar";
+"update.action" = "Aktualisieren";
+"checkbox.checkForUpdates" = "Automatisch nach Updates suchen";
+"settings.updates.help" = "Keeper fragt einmal täglich bei GitHub nach, ob eine neuere Version erschienen ist, und sagt dir Bescheid. Das ist eingeschaltet, und es ist das einzige Mal, dass Keeper ins Netz geht. Es sendet nichts über dich und nichts darüber, was du sperrst, und installiert nie etwas von selbst. Schalte es aus, und Keeper geht überhaupt nicht mehr ins Netz.";
+"update.checkNow" = "Jetzt suchen";
+"update.upToDate" = "Keeper ist auf dem neuesten Stand.";
+"update.failed" = "GitHub war nicht erreichbar. Versuch es später noch einmal.";

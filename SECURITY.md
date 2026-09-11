@@ -9,11 +9,61 @@ Reviewed 11 September 2026 against the 1.6 source tree.
 
 ## The two properties worth trusting
 
-**Keeper cannot talk to the network.** Not "does not" — cannot. There is no `URLSession`, no
-socket, no `Network` framework, and nothing that starts another program (`Process`, `NSTask`,
-`system`, `popen`). There are also no third-party packages, so nothing arrives through a
-dependency either. `grep -rE "URLSession|NWConnection|socket\(|Process\(|NSTask|system\(|popen"
-Sources/` returns nothing, and you can run it yourself.
+**Keeper contacts GitHub once a day, and you can switch that off.** Until version 1.9 this
+section said Keeper *could not* talk to the network at all — no `URLSession` anywhere, and a grep
+you could run to prove it. That is no longer true. A security document that quietly keeps a
+promise the code has stopped honouring is worse than one that never made it, so here is exactly
+what changed, stated before you have to go looking for it.
+
+**It is on when you install Keeper.** Not opt-in. The first time you open Keeper it will, within
+a few seconds, make one request to GitHub. If that is not acceptable to you, turn off **Check for
+updates automatically** in Settings, and Keeper will make no network request of any kind ever
+again. We chose on-by-default knowing what it costs us to say here, because an update notice
+nobody is offered is not one — and an app that ships security fixes people never hear about is
+its own kind of risk.
+
+**Keeper opens itself at login.** It registers as a login item the first time you run it, because
+it guards a session you started and a guard you have to remember to launch is one you forget on
+the day it matters. It is an ordinary login item, not a background daemon or a helper that
+installs itself somewhere: it shows up in System Settings → General → Login Items alongside
+everything else, and in Keeper's own Settings as **Open Keeper at login**. Turning it off in
+either place sticks — the registration happens once, on a first run, and never argues with a
+decision you have made afterwards.
+
+### The whole of it
+
+There is exactly one network call in the app. It lives in `Sources/Keeper/UpdateChecker.swift`
+and it is a single GET to:
+
+    https://api.github.com/repos/YARMAK-Xata/keeper/releases/latest
+
+It asks whether a version newer than yours has been published. It sends no body, no cookies, no
+identifier, and nothing about you, your lists, or your browsing. The only thing identifying the
+request at all is a `User-Agent` of `Keeper/1.9` — GitHub rejects requests without one — and it
+says nothing that distinguishes your copy from anyone else's. The session is ephemeral, so nothing
+about the request is written to disk.
+
+What GitHub can therefore see: that some copy of Keeper, of a given version, asked from your IP
+address, at most once a day. What GitHub cannot see: who you are, what you block, or what you
+browse. That is the honest extent of it, and it is not nothing — an IP address is roughly a
+location, and a daily request is roughly "this machine was switched on today". If you would rather
+not hand that to GitHub, the switch is in Settings and it is the only thing you have to do.
+
+**It never downloads or installs anything.** It compares a version number and offers a link to the
+release page, which opens in your browser. Keeper contains no code that could replace itself, and
+a reply pointing anywhere other than `github.com` is discarded rather than opened.
+
+**It still starts no other program** — no `Process`, `NSTask`, `system`, `popen` or
+`NSAppleScript` — and there are still no third-party packages, so nothing arrives through a
+dependency either.
+
+### Checking this yourself
+
+    grep -rE "URLSession|NWConnection|socket\(|Process\(|NSTask|NSAppleScript" Sources/
+
+Everything it finds is in `UpdateChecker.swift`. `Tests/KeeperTests/NetworkSurfaceTests.swift`
+asserts that on every build, along with the address being the one written above and switching the
+check off actually sticking — so if this section ever drifts from the code, the build fails.
 
 **Nothing about your browsing is written down.** The only things Keeper saves are the two lists
 you built (`blacklistText` and `blockedAppsText`), whatever you had half-typed in the add field

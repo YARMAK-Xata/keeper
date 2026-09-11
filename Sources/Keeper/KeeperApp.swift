@@ -34,6 +34,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         MainActor.assumeIsolated {
             // Puts Keeper in the menu bar, the Dock or both, and sets the activation policy to
             // match, so this is also what makes the app visible at all on a first launch.
+            // Before anything else: a guard you have to remember to start is one you forget on
+            // the day it matters. Once only, so switching it off later stays off.
+            LoginItem.enableOnFirstRun()
             SessionController.shared.setupPresence()
             SessionController.shared.presentAtLaunch()
             if CommandLine.arguments.contains("--start") {
