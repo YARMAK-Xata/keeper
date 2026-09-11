@@ -1,49 +1,43 @@
 import Foundation
 
-/// Where Keeper can be found: the menu bar shield, the Dock icon, or both.
+/// Where Keeper can be found: the menu bar shield, always, and the Dock icon if you want it.
 ///
-/// Both off would leave the app running with nothing to click — no panel, no window, no Quit.
-/// So the last one standing refuses to go and the switch springs back, which is the same answer
-/// the login-item switch gives when the system turns it down: say no rather than lie.
+/// The shield used to be a switch too, and the pair guarded each other — whichever was the last
+/// one on refused to go, so the app could never hide completely. That guard existed because the
+/// window was a second way to use Keeper. It is not any more: the lists, Start and Stop live
+/// under the shield and the window only points at it. A Keeper with no shield would be a Keeper
+/// with nothing to click, so the shield is no longer something you can switch off.
+///
+/// The Dock icon stays a switch, because turning it off costs you nothing.
 struct Presence: Equatable {
-    var menuBar: Bool
+    /// Always true. Kept as a property rather than dropped so the surfaces still read where
+    /// Keeper lives from one place instead of hard-coding it.
+    var menuBar: Bool { true }
+
     var dock: Bool
 
-    static let `default` = Presence(menuBar: true, dock: true)
+    static let `default` = Presence(dock: true)
 
-    private static let menuBarKey = "showInMenuBar"
     private static let dockKey = "showInDock"
+    /// Written by 1.9 and earlier. Read by nothing.
+    private static let retiredMenuBarKey = "showInMenuBar"
 
-    func setting(menuBar: Bool) -> Presence {
-        menuBar || dock ? Presence(menuBar: menuBar, dock: dock) : self
-    }
-
-    func setting(dock: Bool) -> Presence {
-        dock || menuBar ? Presence(menuBar: menuBar, dock: dock) : self
-    }
-
-    /// Repairs a stored pair that says both are hidden — written by an older build, or by hand
-    /// with `defaults write` — rather than launching a Keeper nobody can see.
-    init(stored: Presence) {
-        self = (stored.menuBar || stored.dock) ? stored : .default
-    }
-
-    init(menuBar: Bool, dock: Bool) {
-        self.menuBar = menuBar
+    init(dock: Bool) {
         self.dock = dock
     }
 
     // MARK: - Persistence
 
+    /// A stored `showInMenuBar = false` is simply not consulted: an older build could leave one
+    /// behind, and honouring it now would launch a Keeper with no usable surface at all.
     init(defaults: UserDefaults = .standard) {
-        self.init(stored: Presence(
-            menuBar: defaults.object(forKey: Self.menuBarKey) as? Bool ?? true,
-            dock: defaults.object(forKey: Self.dockKey) as? Bool ?? true
-        ))
+        self.init(dock: defaults.object(forKey: Self.dockKey) as? Bool ?? true)
     }
 
     func save(to defaults: UserDefaults = .standard) {
-        defaults.set(menuBar, forKey: Self.menuBarKey)
         defaults.set(dock, forKey: Self.dockKey)
+        // Clear the retired key rather than leave it lying in the domain, where `defaults read`
+        // would go on describing a switch nobody can find.
+        defaults.removeObject(forKey: Self.retiredMenuBarKey)
     }
 }

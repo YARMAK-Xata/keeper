@@ -1,41 +1,52 @@
 import XCTest
 @testable import Keeper
 
-/// Keeper can be reached from the menu bar shield or from the Dock icon. Hiding both would leave
-/// a running app with no way in and no way out, so the last one standing refuses to go.
+/// Keeper is used from the menu bar shield and nowhere else, so the shield is not optional any
+/// more. The Dock icon still is: turning it off leaves the app fully usable, which is what makes
+/// it a setting rather than a way to lock yourself out.
 final class PresenceTests: XCTestCase {
+    private func scratchDefaults(_ name: String = #function) -> UserDefaults {
+        let suite = "dev.keeper.tests.presence.\(name)"
+        UserDefaults().removePersistentDomain(forName: suite)
+        return UserDefaults(suiteName: suite)!
+    }
+
+    func testTheShieldIsAlwaysInTheMenuBar() {
+        XCTAssertTrue(Presence(dock: true).menuBar)
+        XCTAssertTrue(Presence(dock: false).menuBar, "with no Dock icon the shield is the only way in")
+    }
+
     func testBothVisibleByDefault() {
-        XCTAssertEqual(Presence.default, Presence(menuBar: true, dock: true))
+        XCTAssertEqual(Presence.default, Presence(dock: true))
+        XCTAssertTrue(Presence.default.menuBar)
     }
 
-    func testEitherOneCanBeHiddenWhileTheOtherRemains() {
-        XCTAssertEqual(Presence.default.setting(menuBar: false), Presence(menuBar: false, dock: true))
-        XCTAssertEqual(Presence.default.setting(dock: false), Presence(menuBar: true, dock: false))
+    func testTheDockIconCanBeTurnedOffAndBackOn() {
+        let defaults = scratchDefaults()
+        Presence(dock: false).save(to: defaults)
+        XCTAssertEqual(Presence(defaults: defaults), Presence(dock: false))
+        Presence(dock: true).save(to: defaults)
+        XCTAssertEqual(Presence(defaults: defaults), Presence(dock: true))
     }
 
-    func testHidingTheLastOneIsRefused() {
-        let dockOnly = Presence(menuBar: false, dock: true)
-        XCTAssertEqual(dockOnly.setting(dock: false), dockOnly, "hiding the Dock icon with no shield left must be refused")
-
-        let shieldOnly = Presence(menuBar: true, dock: false)
-        XCTAssertEqual(shieldOnly.setting(menuBar: false), shieldOnly, "hiding the shield with no Dock icon left must be refused")
+    func testNothingStoredMeansBothVisible() {
+        XCTAssertEqual(Presence(defaults: scratchDefaults()), Presence.default)
     }
 
-    func testTurningOneBackOnAlwaysWorks() {
-        XCTAssertEqual(Presence(menuBar: false, dock: true).setting(menuBar: true), Presence.default)
-        XCTAssertEqual(Presence(menuBar: true, dock: false).setting(dock: true), Presence.default)
+    /// 1.9 and earlier could switch the shield off and leave the window doing the work. The
+    /// window does not do the work any more, so that stored setting would be a Keeper with no
+    /// usable surface at all. It has to be ignored on the way in.
+    func testAShieldHiddenByAnOlderBuildComesBack() {
+        let defaults = scratchDefaults()
+        defaults.set(false, forKey: "showInMenuBar")
+        XCTAssertTrue(Presence(defaults: defaults).menuBar)
     }
 
-    /// Setting a switch to what it already is is not a change, and must not be read as one.
-    func testSettingAValueItAlreadyHasIsANoOp() {
-        XCTAssertEqual(Presence(menuBar: true, dock: false).setting(menuBar: true), Presence(menuBar: true, dock: false))
-        XCTAssertEqual(Presence(menuBar: false, dock: true).setting(dock: true), Presence(menuBar: false, dock: true))
-    }
-
-    /// Defaults written by an older build, or by hand, can say both are off. The app has to
-    /// come back from that rather than launch invisible.
-    func testAnImpossibleStoredStateIsRepaired() {
-        XCTAssertEqual(Presence(stored: Presence(menuBar: false, dock: false)), Presence.default)
-        XCTAssertEqual(Presence(stored: Presence(menuBar: false, dock: true)), Presence(menuBar: false, dock: true))
+    /// And cleared on the way out, so `defaults read` stops describing a switch that is gone.
+    func testSavingRetiresTheOldShieldKey() {
+        let defaults = scratchDefaults()
+        defaults.set(false, forKey: "showInMenuBar")
+        Presence(dock: true).save(to: defaults)
+        XCTAssertNil(defaults.object(forKey: "showInMenuBar"))
     }
 }

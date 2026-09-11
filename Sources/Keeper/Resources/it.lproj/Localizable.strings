@@ -38,11 +38,13 @@
 "menu.settings" = "Impostazioni…";
 "menu.quit" = "Esci da Keeper";
 
+/* La finestra, che è solo un cartello */
+"window.menuBarOnly" = "Keeper si usa dallo scudo nella barra dei menu. Gli elenchi e l'avvio e l'arresto di una sessione sono tutti nel pannello che si apre sotto.";
+
 /* Settings */
-"checkbox.menuBar" = "Mostra nella barra dei menu";
 "checkbox.dock" = "Mostra nel Dock";
 "checkbox.openAtLogin" = "Apri Keeper al login";
-"settings.presence.help" = "Keeper deve restare raggiungibile da qualche parte: quello dei due interruttori che resta acceso per ultimo non si può spegnere.";
+"settings.presence.help" = "Lo scudo nella barra dei menu è il modo in cui si usa Keeper, quindi è sempre lì. L'icona nel Dock è solo una seconda via allo stesso pannello e se ne può fare a meno.";
 
 /* About */
 "menu.about" = "Informazioni su Keeper";

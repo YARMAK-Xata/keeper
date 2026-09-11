@@ -51,8 +51,8 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleName</key><string>Keeper</string>
   <key>CFBundleDisplayName</key><string>Keeper</string>
   <key>CFBundleIdentifier</key><string>dev.keeper.Keeper</string>
-  <key>CFBundleVersion</key><string>10</string>
-  <key>CFBundleShortVersionString</key><string>1.9</string>
+  <key>CFBundleVersion</key><string>11</string>
+  <key>CFBundleShortVersionString</key><string>1.10</string>
   <key>CFBundleExecutable</key><string>Keeper</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>

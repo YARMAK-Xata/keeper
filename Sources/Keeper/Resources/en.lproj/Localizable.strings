@@ -38,11 +38,13 @@
 "menu.settings" = "Settings…";
 "menu.quit" = "Quit Keeper";
 
+/* The window, which is a signpost and nothing else */
+"window.menuBarOnly" = "Keeper is used from the shield in the menu bar. The lists, and starting and stopping a session, are all in the panel under it.";
+
 /* Settings */
-"checkbox.menuBar" = "Show in menu bar";
 "checkbox.dock" = "Show in Dock";
 "checkbox.openAtLogin" = "Open Keeper at login";
-"settings.presence.help" = "Keeper has to be reachable somewhere, so whichever of these two is the last one switched on stays on.";
+"settings.presence.help" = "The shield in the menu bar is how Keeper is used, so it is always there. The Dock icon is a second way to the same panel, and you can do without it.";
 
 /* About */
 "menu.about" = "About Keeper";

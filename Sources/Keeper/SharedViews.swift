@@ -56,6 +56,23 @@ struct UpdateLine: View {
     }
 }
 
+/// The window's whole job once Keeper has the access it needs: say where the app is.
+///
+/// Deliberately not a button. A "show me" control here would be a fourth way to reach a panel
+/// that already opens from the shield, the Dock icon and the right-click menu, and it would
+/// teach the window as the way in — which is the habit this line exists to break.
+struct MenuBarSignpost: View {
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: Metrics.Row.iconGap) {
+            Image(systemName: "menubar.arrow.up.rectangle")
+                .foregroundStyle(.secondary)
+            Text(L.t("window.menuBarOnly"))
+                .font(Metrics.Typography.body)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+}
+
 // MARK: - The list chrome both lists wear
 
 /// The label, the lock, and the rounded container a list sits in. Extracted so the sites list and

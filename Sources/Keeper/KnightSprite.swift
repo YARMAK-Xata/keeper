@@ -34,6 +34,19 @@ final class KnightSprite {
     /// knight has to be as large as the space allows, which is the menu bar.
     static let characterTightBox = CGRect(x: 24, y: 16, width: 16, height: 22)
 
+    /// The rectangle you can pick him up by, given where his feet are — the same coordinates
+    /// `KnightFrame.position` is in.
+    ///
+    /// It is the drawn character and nothing else. The window carrying him is 360 by 300 and
+    /// almost all of that is empty air over the Dock, so anything wider than this would mean
+    /// standing beside the Dock and swallowing clicks meant for it.
+    static func grabBox(feetAt feet: CGPoint) -> CGRect {
+        CGRect(x: feet.x + (characterBox.minX - anchor.x) * scale,
+               y: feet.y + (characterBox.minY - anchor.y) * scale,
+               width: characterBox.width * scale,
+               height: characterBox.height * scale)
+    }
+
     /// Draws just the character, unsmoothed, scaled to fill `rect`.
     func drawCharacter(_ animation: KnightAnimation, frame: Int, in rect: CGRect,
                        box: CGRect = KnightSprite.characterBox) {

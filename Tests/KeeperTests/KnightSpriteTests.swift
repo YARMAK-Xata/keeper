@@ -60,4 +60,30 @@ extension KnightSpriteTests {
         XCTAssertGreaterThan(onDutyInk, idleInk * 1.5, "the on-duty shield should read as filled")
         XCTAssertLessThan(onDutyInk, 0.5, "the fill should look like glass, not a solid slab")
     }
+
+    // MARK: - The part of him you can pick up
+
+    /// The overlay window is 360 by 300 and almost all of it is empty air over the Dock. Only
+    /// the drawn character may take a click; everything else has to stay click-through, or
+    /// standing beside the Dock would mean standing on top of it.
+    func testTheGrabBoxIsTheDrawnCharacterAndNotTheWindow() {
+        let feet = CGPoint(x: 200, y: 50)
+        let box = KnightSprite.grabBox(feetAt: feet)
+
+        XCTAssertTrue(box.contains(CGPoint(x: 200, y: 90)), "his chest is him")
+        XCTAssertTrue(box.contains(CGPoint(x: 200, y: 52)), "just above his feet is him")
+        XCTAssertFalse(box.contains(CGPoint(x: 200, y: 40)), "below his feet is the Dock, not him")
+        XCTAssertFalse(box.contains(CGPoint(x: 120, y: 90)), "the empty margin of the window is not him")
+        XCTAssertFalse(box.contains(CGPoint(x: 200, y: 200)), "the speech bubble is not him")
+    }
+
+    /// Grown or shrunk, the box is whatever is actually on screen — it is measured from the same
+    /// character bounds and scale the drawing uses, never written down a second time.
+    func testTheGrabBoxMatchesTheDrawnSize() {
+        let box = KnightSprite.grabBox(feetAt: .zero)
+        XCTAssertEqual(box.width, KnightSprite.characterBox.width * KnightSprite.scale)
+        XCTAssertEqual(box.height, KnightSprite.characterBox.height * KnightSprite.scale)
+        XCTAssertEqual(box.midX, 0, accuracy: 0.001, "he is centred on his feet")
+        XCTAssertEqual(box.minY, 0, accuracy: 0.001, "and stands on them")
+    }
 }

@@ -20,7 +20,6 @@ struct PanelView: View {
     @State private var alertShown = Permissions.hasRequestedTrust
     @State private var tick = Date()
 
-    var onOpenWindow: () -> Void
     var onOpenSettings: () -> Void
     var onQuit: () -> Void
 
@@ -57,33 +56,28 @@ struct PanelView: View {
         .onChange(of: session.lastEvent) { _, _ in tick = Date() }
     }
 
-    /// The three links, on one row where they fit and two where they do not.
+    /// The two links, on one row where they fit and stacked where they do not.
     ///
-    /// They were justified edge to edge across a fixed-width popover, which held in English and
-    /// nowhere else: "Keeper öffnen · Einstellungen… · Keeper beenden" wants 274 points, the
-    /// Russian 291 and the Ukrainian 297, against the 272 the panel had. The overflow did not
-    /// wrap, it pushed Quit off the edge — and Quit is the one link the panel cannot afford to
-    /// lose, because it is the only way out of a dead end.
+    /// There used to be three, opening the window first. That link went when the window stopped
+    /// being a second place to use Keeper: a link whose whole result is a sign telling you to come
+    /// back here is a step that leads nowhere.
     ///
-    /// The panel is wider now and all seven fit again, but a fixed row that happens to fit today
-    /// is the same bug waiting for the eighth language. `ViewThatFits` measures instead of
-    /// assuming: it takes the single row when the row is genuinely wide enough, and drops Quit to
-    /// its own line when it is not.
+    /// They sit against the left margin like everything above them. Justifying them edge to edge
+    /// put Quit out on the right rail, alone in a panel whose every other element starts at the
+    /// same x — and it was only ever a way to space three items, which there are no longer three
+    /// of.
+    ///
+    /// Still measured rather than assumed. Two links fit in every language Keeper speaks today,
+    /// but a row that happens to fit is the same bug that once pushed Quit off the edge in German,
+    /// waiting for the eighth language. `ViewThatFits` stacks them instead of clipping.
     private var links: some View {
         ViewThatFits(in: .horizontal) {
-            HStack(spacing: 0) {
-                Button(L.t("menu.open"), action: onOpenWindow)
-                Spacer(minLength: Metrics.Space.step)
+            HStack(spacing: Metrics.Space.section) {
                 Button(L.t("menu.settings"), action: onOpenSettings)
-                Spacer(minLength: Metrics.Space.step)
                 Button(L.t("menu.quit"), action: onQuit)
             }
             VStack(alignment: .leading, spacing: Metrics.Space.snug) {
-                HStack(spacing: 0) {
-                    Button(L.t("menu.open"), action: onOpenWindow)
-                    Spacer(minLength: Metrics.Space.step)
-                    Button(L.t("menu.settings"), action: onOpenSettings)
-                }
+                Button(L.t("menu.settings"), action: onOpenSettings)
                 Button(L.t("menu.quit"), action: onQuit)
             }
         }
@@ -105,27 +99,32 @@ struct LatestEvent: View {
     }
 }
 
-/// One purpose sentence and one button that opens the system alert, as the HIG asks. The
-/// settings link appears only once the alert has been shown, because before that it is a second
-/// way to do the thing the button already does.
+/// One purpose sentence and one button, as the HIG asks — and one button is the whole point.
+///
+/// There were two: Continue, which showed the system alert, and a link to System Settings that
+/// appeared underneath once the alert had been shown. They were not alternatives, they were a
+/// sequence, because the alert is a one-shot and Continue stopped doing anything after the first
+/// press. Stacked together they read as the same offer made twice, with the prominent one being
+/// the one that had gone dead. `PermissionStep` folds them into a single button that says which
+/// of the two it is about to do.
 struct PermissionSection: View {
     @Binding var alertShown: Bool
+
+    private var step: PermissionStep { .current(alertShown: alertShown) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: Metrics.Space.gap) {
             Text(L.t("permission.purpose"))
                 .font(Metrics.Typography.body)
                 .fixedSize(horizontal: false, vertical: true)
-            PrimaryButton(label: L.t("permission.continue"), isDefault: true) {
-                Permissions.requestTrust()
+            PrimaryButton(label: step.label, isDefault: true) {
+                step.take()
                 alertShown = true
             }
+            // A rebuilt copy of an app is a different app to macOS, so an approval granted to
+            // the previous copy stays switched on and stops working. Say so rather than
+            // leaving people to wonder why the switch is on and Keeper disagrees.
             if alertShown {
-                Button(L.t("permission.openSettings")) { Permissions.openAccessibilitySettings() }
-                    .buttonStyle(.link)
-                // A rebuilt copy of an app is a different app to macOS, so an approval granted to
-                // the previous copy stays switched on and stops working. Say so rather than
-                // leaving people to wonder why the switch is on and Keeper disagrees.
                 Text(L.t("permission.stale"))
                     .font(Metrics.Typography.secondary).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)

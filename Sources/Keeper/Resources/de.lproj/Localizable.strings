@@ -38,11 +38,13 @@
 "menu.settings" = "Einstellungen…";
 "menu.quit" = "Keeper beenden";
 
+/* Das Fenster, das nur ein Wegweiser ist */
+"window.menuBarOnly" = "Keeper wird über das Schild in der Menüleiste bedient. Die Listen und das Starten und Beenden einer Sitzung sind alle in dem Bereich darunter.";
+
 /* Settings */
-"checkbox.menuBar" = "In der Menüleiste anzeigen";
 "checkbox.dock" = "Im Dock anzeigen";
 "checkbox.openAtLogin" = "Keeper bei der Anmeldung öffnen";
-"settings.presence.help" = "Keeper muss irgendwo erreichbar bleiben, deshalb bleibt der von beiden Schaltern an, der zuletzt eingeschaltet wurde.";
+"settings.presence.help" = "Keeper wird über das Schild in der Menüleiste bedient, deshalb ist es immer da. Das Dock-Symbol ist nur ein zweiter Weg zum selben Bereich und lässt sich weglassen.";
 
 /* About */
 "menu.about" = "Über Keeper";

@@ -15,13 +15,9 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section {
-                Toggle(L.t("checkbox.menuBar"), isOn: Binding(
-                    get: { presence.menuBar },
-                    set: { apply(presence.setting(menuBar: $0)) }
-                ))
                 Toggle(L.t("checkbox.dock"), isOn: Binding(
                     get: { presence.dock },
-                    set: { apply(presence.setting(dock: $0)) }
+                    set: { apply(Presence(dock: $0)) }
                 ))
             } footer: {
                 Text(L.t("settings.presence.help"))
@@ -81,8 +77,6 @@ struct SettingsView: View {
         .onAppear { presence = Presence() }
     }
 
-    /// A refused change — the one that would hide Keeper everywhere — comes back unchanged, so
-    /// the switch springs back on its own without a dialog explaining why.
     private func apply(_ new: Presence) {
         guard new != presence else { return }
         presence = new

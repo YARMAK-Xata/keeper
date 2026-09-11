@@ -60,6 +60,12 @@ final class SessionController: ObservableObject {
         lastHome = nil
         knight = Knight(home: Self.homePoint())
         overlay = OverlayWindow()
+        // He can be picked up and carried anywhere, and walks back to his post when he is let
+        // go. `Knight` refuses the grab while he is on an errand, which is what stops this being
+        // a way to lift him off a tab he was sent to close.
+        overlay?.onGrab = { [weak self] in self?.knight?.grab() ?? false }
+        overlay?.onCarry = { [weak self] point in self?.knight?.drag(to: point) }
+        overlay?.onRelease = { [weak self] in self?.knight?.release() }
         isRunning = true
         startedAt = Date()
         lastEvent = nil
@@ -115,7 +121,6 @@ final class SessionController: ObservableObject {
     func setupPresence() {
         let panel = NSHostingController(rootView: PanelView(
             session: self,
-            onOpenWindow: { [weak self] in self?.showMainWindow() },
             onOpenSettings: { [weak self] in self?.showSettings() },
             onQuit: { NSApp.terminate(nil) }
         ))

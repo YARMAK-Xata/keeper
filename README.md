@@ -21,17 +21,20 @@ Three surfaces, one job each.
 
 | Surface | What it is for | How you get there |
 |---|---|---|
-| **The panel** | The whole task: the state, the list, Start and Stop | Click the menu bar shield |
-| **The window** | The same list with room to breathe, and the Accessibility step | "Open Keeper", or the Dock icon |
-| **Settings** | Where Keeper appears, and whether it starts at login | "Settings…", or ⌘, |
+| **The panel** | The whole task: the state, the lists, Start and Stop | Click the menu bar shield |
+| **The window** | The Accessibility step, and afterwards a sign saying where Keeper is | "Open Keeper", or the Dock icon |
+| **Settings** | Whether Keeper shows a Dock icon, and whether it starts at login | "Settings…", or ⌘, |
 
-The panel is the app. Everything you can do, you can do without opening a window: the list, the
-one button, and links to the window, Settings and Quit. The window is not a second design — both
-surfaces render the same `TaskSection` and the same header, at 420 points and 340, and every
-measurement either of them uses comes from `Metrics.swift` — so there is one look and one list,
-and closing the window never takes a capability away. Right-clicking the shield gives a
-plain menu with the same three links, so a panel that fails to open can never leave Keeper
-running with nothing to click.
+The panel is the app, and it is the only place you use Keeper from. The window used to carry a
+second copy of the same task, on the theory that two surfaces rendering the same view cannot
+drift apart. They could not, and that was not the problem: two places to do one thing is one
+place too many. It invites you to keep a window open for an app that does not need one, and it
+leaves anyone who met the window first never finding the panel — which is the surface that is
+there while you work. So the window shows the permission step, and after that says where Keeper
+is. The panel itself carries only Settings and Quit — a link whose result is a sign telling you
+to come back to the panel is a step that leads nowhere. Right-clicking the shield still gives a
+plain menu of three, the window included, because that menu is not a copy of the panel: it is the
+way out when the panel will not open, and it has to reach everything without one.
 
 The shield is a stroked outline rather than the sprite, because every other icon up there is a
 thin outline and a filled pixel-art character among them reads as a blob at any size. It is empty
@@ -45,8 +48,10 @@ It is an ordinary login item: System Settings → General → Login Items lists 
 login** in Settings toggles it, and turning it off anywhere sticks, because the registration
 happens once on a first run and never argues with you afterwards.
 
-**Show in menu bar** and **Show in Dock** let you decide where Keeper appears. It will not let you
-switch off both — whichever is the last one on stays on, so there is always a way back in.
+**Show in Dock** decides whether Keeper keeps a Dock icon. The shield is not a switch: it is how
+Keeper is used, so it is always in the menu bar. Earlier versions let you hide it and left the
+window doing the work; the window does not do the work any more, and a Keeper with no shield
+would be a Keeper with nothing to click.
 
 ## Sites
 
@@ -83,6 +88,17 @@ does — resized, or simply widened by an app launching. Keeper reads the Dock's
 its accessibility tree to find it, because the Dock's own window is a full-screen transparent
 overlay whose bounds say nothing about where the icons are. A Dock on the left or right edge, or
 hidden, puts him back in the bottom-right corner of the screen.
+
+### Picking him up
+
+Drag him anywhere on the screen and let go, and he walks back to his post at the pace he walks
+everywhere else. He can be picked up only while he is standing still: grab at him mid-errand and
+he ignores you, because a knight you could lift off a tab he was sent to close would be a way out
+of your own session.
+
+The window that carries him floats above everything and is far larger than he is, so it passes
+clicks through to whatever is behind it — the Dock included — everywhere except the few points he
+is actually drawn on. That hole moves with him, and it closes again the moment you let go.
 
 ## How it detects
 

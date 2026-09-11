@@ -1,35 +1,32 @@
 import AppKit
 import SwiftUI
 
-/// Keeper's window. It shows the Accessibility step on a first launch, and after that the same
-/// task the menu bar panel shows, with room to breathe — literally the same `TaskSection`, the
-/// same header and the same button, set out on the roomier of the two surfaces in `Metrics`.
+/// Keeper's window. It shows the Accessibility step on a first launch, and after that it says
+/// where Keeper actually is: under the shield in the menu bar.
 ///
-/// Nothing lives only here: everything in this window is also in the panel, so closing it never
-/// takes a capability away. The settings switches moved to Settings, where they stop competing
-/// with the one action.
+/// It used to carry a second copy of the whole task — the same `TaskSection`, the same button —
+/// on the theory that two surfaces which render the same view cannot drift apart. They could not,
+/// and that was not the problem. Two places to do one thing is one place too many: it invites you
+/// to keep a window open for an app that does not need one, and it leaves people who found the
+/// window first never discovering the panel, which is where Keeper lives while you work. So the
+/// lists, Start and Stop are the panel's alone, and this window points at them.
+///
+/// The permission step stays here, because it is a gate rather than day-to-day use, and because
+/// a popover is the wrong place to be sent to System Settings from.
 struct MainView: View {
     @ObservedObject var session: SessionController
-
-    @AppStorage("blacklistText") private var storedText = "youtube.com\n"
-    @AppStorage("blockedAppsText") private var storedApps = ""
-    @AppStorage("draftSite") private var draft = ""
 
     @ObservedObject private var updates = UpdateChecker.shared
 
     @State private var trusted = Permissions.isTrusted
     @State private var alertShown = Permissions.hasRequestedTrust
-    @State private var tick = Date()
 
     @Environment(\.openWindow) private var openWindow
 
     private let trustCheck = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
-    private let clockTick = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
 
     private let surface = Metrics.Surface.window
 
-    private var sites: SiteList { SiteList(text: storedText) }
-    private var apps: AppList { AppList(text: storedApps) }
     private var state: SurfaceState { .current(trusted: trusted, running: session.isRunning) }
 
     var body: some View {
@@ -40,10 +37,7 @@ struct MainView: View {
             UpdateLine(checker: updates)
             switch state {
             case .needsAccess: PermissionSection(alertShown: $alertShown)
-            case .ready, .onDuty:
-                TaskSection(session: session, surface: surface,
-                            storedText: $storedText, storedApps: $storedApps,
-                            draft: $draft, now: tick)
+            case .ready, .onDuty: MenuBarSignpost()
             }
         }
         .padding(surface.margin)
@@ -54,8 +48,6 @@ struct MainView: View {
         .onAppear { session.openMainWindow = { openWindow(id: "main") } }
         .onAppear { updates.checkIfDue() }
         .onReceive(trustCheck) { _ in trusted = Permissions.isTrusted }
-        .onReceive(clockTick) { now in tick = now }
-        .onChange(of: session.lastEvent) { _, _ in tick = Date() }
     }
 
 }

@@ -5,7 +5,7 @@ contents of other apps' windows and press keys in them. That is a lot to hand to
 you were sent as a disk image, so this is what Keeper does with it, what was checked, and what is
 still true that you might not like.
 
-Reviewed 11 September 2026 against the 1.6 source tree.
+Reviewed 12 September 2026 against the 1.10 source tree.
 
 ## The two properties worth trusting
 
@@ -67,9 +67,9 @@ check off actually sticking — so if this section ever drifts from the code, th
 
 **Nothing about your browsing is written down.** The only things Keeper saves are the two lists
 you built (`blacklistText` and `blockedAppsText`), whatever you had half-typed in the add field
-(`draftSite`), the two switches from Settings, and whether the permission alert has been shown. The address of a page it
-spotted lives in memory for as long as the window shows "Closed youtube.com in Safari", and goes
-when you quit. No page address is written to a file, a log, or the system console.
+(`draftSite`), the Settings switches, and whether the permission alert has been shown. The address
+of a page it spotted lives in memory for as long as the panel shows "Closed youtube.com in
+Safari", and goes when you quit. No page address is written to a file, a log, or the system console.
 
 ## What was found and fixed in 1.5
 
@@ -110,8 +110,17 @@ personal, so it is worth knowing where it lives.
 ## What was checked and found sound
 
 **The debug trust bypass is not in the shipped app.** `KEEPER_ASSUME_TRUSTED=1` skips the
-Accessibility check so the window's states can be looked at during development. It is inside
+Accessibility check so the surfaces' states can be looked at during development. It is inside
 `#if DEBUG`; `strings .build/release/Keeper | grep KEEPER_ASSUME_TRUSTED` returns nothing.
+
+**The knight's window takes a click only where he is drawn.** He is carried by a borderless
+window that floats above everything on every Space, 360 by 300 points of mostly empty air. It
+passes clicks through to whatever is behind it — the Dock included — and stops doing so only
+while the pointer is inside the 60 by 78 points he actually occupies, which is re-checked every
+frame as he moves. It reads the pointer position and the mouse buttons and nothing else: no event
+tap, no monitor on anyone else's input. A carry ends the moment no button is held, with or
+without a mouse-up, so a drag interrupted by a Space switch cannot leave a window above
+everything swallowing clicks.
 
 **The ⌘W keystroke is aimed, not broadcast.** Before pressing anything, Keeper re-reads the
 window's address and re-checks it against your list, so a tab you already navigated away from is

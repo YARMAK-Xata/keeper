@@ -38,11 +38,13 @@
 "menu.settings" = "Réglages…";
 "menu.quit" = "Quitter Keeper";
 
+/* La fenêtre, qui n'est qu'un panneau indicateur */
+"window.menuBarOnly" = "Keeper s'utilise depuis le bouclier de la barre des menus. Les listes, ainsi que le démarrage et l'arrêt d'une session, se trouvent dans le panneau qui s'ouvre dessous.";
+
 /* Settings */
-"checkbox.menuBar" = "Afficher dans la barre des menus";
 "checkbox.dock" = "Afficher dans le Dock";
 "checkbox.openAtLogin" = "Ouvrir Keeper à l'ouverture de session";
-"settings.presence.help" = "Keeper doit rester accessible quelque part : celui des deux interrupteurs qui reste activé en dernier ne peut pas être désactivé.";
+"settings.presence.help" = "Le bouclier de la barre des menus est la façon dont Keeper s'utilise, il est donc toujours là. L'icône du Dock n'est qu'un second chemin vers le même panneau, et vous pouvez vous en passer.";
 
 /* About */
 "menu.about" = "À propos de Keeper";

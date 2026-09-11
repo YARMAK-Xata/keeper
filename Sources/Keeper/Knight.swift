@@ -18,17 +18,27 @@ struct KnightFrame: Equatable {
 }
 
 /// Pure state machine: idle at home → run to target → attack (strike once) → run home → idle.
+///
+/// One branch off that loop: from idle he can be picked up and carried, and where he is let go
+/// he walks home by the same path he takes after an errand. Only from idle — the errand always
+/// finishes, so grabbing him is never a way to save a tab.
 struct Knight {
     enum Event: Equatable { case strike, arrivedHome }
     enum Phase: Equatable {
         case idle
+        case carried
         case running(to: CGPoint, attackOnArrival: Bool)
         case attacking(since: TimeInterval)
     }
 
-    static let speed: CGFloat = 500
+    static let speed: CGFloat = 200
+    /// How far one frame of the run cycle carries him. The frame rate is worked out from this
+    /// rather than written beside it, so changing his speed can never leave his legs behind:
+    /// pick a speed, and the cycle plays at whatever rate keeps that stride on the ground.
+    static let strideLength: CGFloat = 25
     static let idleFrames = 5, idleFPS = 6.0
-    static let runFrames = 8, runFPS = 10.0
+    static let runFrames = 8
+    static let runFPS = Double(speed / strideLength)
     static let attackFrames = 6, attackFPS = 10.0, strikeFrame = 3
 
     private(set) var home: CGPoint
@@ -51,6 +61,33 @@ struct Knight {
         message = target.message
         facingLeft = target.point.x < position.x
         phase = .running(to: target.point, attackOnArrival: true)
+    }
+
+    /// Picks him up, and says whether he allowed it.
+    ///
+    /// Only from idle. Mid-errand he is refused, and that refusal is the feature: a knight you
+    /// could snatch off a tab he was sent to close would be a way out of the session, and the
+    /// session is the whole point of the app.
+    @discardableResult
+    mutating func grab() -> Bool {
+        guard phase == .idle else { return false }
+        phase = .carried
+        return true
+    }
+
+    /// Carries him. He faces the way he is being moved, so he never travels backwards.
+    mutating func drag(to point: CGPoint) {
+        guard phase == .carried else { return }
+        if point.x != position.x { facingLeft = point.x < position.x }
+        position = point
+    }
+
+    /// Lets go. He walks back to his post on the same legs he comes home on, and picks up his
+    /// duties when he arrives.
+    mutating func release() {
+        guard phase == .carried else { return }
+        facingLeft = home.x < position.x
+        phase = .running(to: home, attackOnArrival: false)
     }
 
     /// Moves the spot he waits at, without interrupting him.
@@ -78,7 +115,7 @@ struct Knight {
         let dt = CGFloat(min(max(now - (lastTime ?? now), 0), 0.1))
         lastTime = now
         switch phase {
-        case .idle:
+        case .idle, .carried:
             return []
         case .running(let to, let attackOnArrival):
             let dx = to.x - position.x, dy = to.y - position.y
@@ -120,7 +157,9 @@ struct Knight {
             return i < 0 ? i + count : i
         }
         switch phase {
-        case .idle:
+        // Carried, he dangles: the idle cycle is the one that reads as "not doing anything",
+        // and the sheet has no row for being held.
+        case .idle, .carried:
             return KnightFrame(position: position, animation: .idle, frameIndex: loop(Self.idleFPS, Self.idleFrames), facingLeft: facingLeft, message: message)
         case .running:
             return KnightFrame(position: position, animation: .run, frameIndex: loop(Self.runFPS, Self.runFrames), facingLeft: facingLeft, message: message)

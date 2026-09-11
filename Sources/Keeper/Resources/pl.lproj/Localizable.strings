@@ -38,11 +38,13 @@
 "menu.settings" = "Ustawienia…";
 "menu.quit" = "Zakończ Keeper";
 
+/* Okno, które jest tylko drogowskazem */
+"window.menuBarOnly" = "Keepera obsługuje się tarczą na pasku menu. Listy oraz rozpoczynanie i zatrzymywanie sesji są w panelu pod nią.";
+
 /* Settings */
-"checkbox.menuBar" = "Pokazuj na pasku menu";
 "checkbox.dock" = "Pokazuj w Docku";
 "checkbox.openAtLogin" = "Otwieraj Keeper przy logowaniu";
-"settings.presence.help" = "Keeper musi być gdzieś dostępny, więc ten z dwóch przełączników, który zostanie włączony jako ostatni, pozostaje włączony.";
+"settings.presence.help" = "Tarcza na pasku menu to sposób, w jaki obsługuje się Keepera, więc jest tam zawsze. Ikona w Docku to tylko druga droga do tego samego panelu i można się bez niej obejść.";
 
 /* About */
 "menu.about" = "Keeper — informacje";
