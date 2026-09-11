@@ -1,0 +1,66 @@
+/* Header states */
+"state.needsAccess.title" = "Wymagany dostęp";
+"state.needsAccess.subtitle" = "Jedno uprawnienie i gotowe.";
+"state.ready.title" = "Gotowe";
+"state.ready.subtitle" = "Dodaj to, co cię rozprasza.";
+"state.onDuty.title" = "Na służbie od %@";
+
+/* Accessibility permission */
+"permission.purpose" = "Keeper odczytuje adres strony przed tobą, żeby rozpoznać witryny z twojej listy, a potem naciska ⌘W i zamyka tę kartę. Nic nie opuszcza twojego Maca.";
+"permission.continue" = "Kontynuuj";
+"permission.openSettings" = "Otwórz Ustawienia systemowe";
+"permission.stale" = "Już włączone? Wyłącz i włącz Keeper ponownie na liście.";
+
+/* Site list */
+"list.label" = "Witryny, których nie odwiedzisz w tej sesji";
+"list.locked.help" = "Zablokowane na służbie";
+"list.add.placeholder" = "Dodaj witrynę…";
+"list.remove.help" = "Usuń %@";
+"list.empty" = "Na razie pusto. Dodaj to, co cię rozprasza — rycerz zamknie je, gdy tylko się pojawią.";
+"quickAdd.menu" = "Zestawy";
+
+/* Buttons */
+"button.start" = "Rozpocznij sesję";
+"button.stop" = "Zatrzymaj sesję";
+"button.start.hint" = "Dodaj przynajmniej jedną witrynę lub aplikację, aby zacząć.";
+
+/* Events */
+"event.spotted" = "Zauważono %1$@ w %2$@";
+"event.closed" = "Zamknięto %1$@ w %2$@";
+"event.alreadyGone" = "Nie było już %1$@ w %2$@";
+"event.failed" = "Nie udało się zamknąć %1$@ w %2$@. Karta może być przypięta — odepnij ją albo zamknij samodzielnie.";
+
+/* The knight's speech bubble */
+"knight.bubble" = "Próbujesz wejść na %@?";
+
+/* The panel's links, and the shield's right-click menu */
+"menu.open" = "Otwórz Keeper";
+"menu.settings" = "Ustawienia…";
+"menu.quit" = "Zakończ Keeper";
+
+/* Settings */
+"checkbox.menuBar" = "Pokazuj na pasku menu";
+"checkbox.dock" = "Pokazuj w Docku";
+"checkbox.openAtLogin" = "Otwieraj Keeper przy logowaniu";
+"settings.presence.help" = "Keeper musi być gdzieś dostępny, więc tego z dwóch przełączników, który pozostanie włączony jako ostatni, nie da się wyłączyć.";
+
+/* About */
+"menu.about" = "Keeper — informacje";
+"about.tagline" = "Keeper zamyka karty, od których masz się trzymać z daleka.";
+"about.credit" = "Sprite rycerza: rgsdev, CC BY-SA 4.0.";
+
+/* Apps list */
+"list.apps.label" = "Aplikacje, których nie otworzysz w tej sesji";
+"list.apps.add.placeholder" = "Dodaj aplikację…";
+"list.apps.choose" = "Wybierz";
+"list.apps.running" = "Teraz uruchomione";
+"list.apps.chooseOther" = "Wybierz z Aplikacji…";
+"list.apps.refused.settings" = "Ustawienia systemowe pozostają dostępne — to tam możesz odebrać Keeperowi dostęp.";
+"list.apps.refused.finder" = "Finder pozostaje dostępny; ukrycie go zabrałoby też twoje biurko.";
+"list.apps.refused.self" = "Keeper pozostaje dostępny, inaczej nie dałoby się zatrzymać sesji.";
+"event.appSpotted" = "Otwarte: %@";
+"event.hid" = "Ukryto: %@";
+"event.appAlreadyGone" = "Już zniknęło: %@";
+"event.hidNoWindows" = "%@ nie ma okna do ukrycia";
+"event.hidFailed" = "Nie udało się ukryć %@";
+"knight.bubble.app" = "Próbujesz otworzyć %@?";

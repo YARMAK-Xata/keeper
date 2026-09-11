@@ -1,0 +1,33 @@
+{
+  "fill": {
+    "solid": "srgb:0.055,0.063,0.125,1.000"
+  },
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "Knight.png",
+          "name": "Knight"
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    }
+  ],
+  "supported-platforms": {
+    "circles": [
+      "watchOS"
+    ],
+    "squares": [
+      "iOS",
+      "macOS"
+    ]
+  }
+}

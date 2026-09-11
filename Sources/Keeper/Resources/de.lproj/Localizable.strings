@@ -1,0 +1,66 @@
+/* Header states */
+"state.needsAccess.title" = "Zugriff erforderlich";
+"state.needsAccess.subtitle" = "Eine Berechtigung, dann kann es losgehen.";
+"state.ready.title" = "Bereit";
+"state.ready.subtitle" = "Füge hinzu, was dich ablenkt.";
+"state.onDuty.title" = "Im Dienst seit %@";
+
+/* Accessibility permission */
+"permission.purpose" = "Keeper liest die Adresse der Seite vor dir, um die Websites von deiner Liste zu erkennen, und drückt dann ⌘W, um den Tab zu schließen. Nichts verlässt deinen Mac.";
+"permission.continue" = "Fortfahren";
+"permission.openSettings" = "Systemeinstellungen öffnen";
+"permission.stale" = "Schon eingeschaltet? Schalte Keeper in der Liste aus und wieder ein.";
+
+/* Site list */
+"list.label" = "Websites, die du in dieser Sitzung nicht besuchst";
+"list.locked.help" = "Im Dienst gesperrt";
+"list.add.placeholder" = "Website hinzufügen…";
+"list.remove.help" = "%@ entfernen";
+"list.empty" = "Noch nichts hier. Füge hinzu, was dich ablenkt — der Ritter schließt es, sobald es auftaucht.";
+"quickAdd.menu" = "Vorlagen";
+
+/* Buttons */
+"button.start" = "Sitzung starten";
+"button.stop" = "Sitzung beenden";
+"button.start.hint" = "Füge mindestens eine Website oder App hinzu, um zu starten.";
+
+/* Events */
+"event.spotted" = "%1$@ in %2$@ entdeckt";
+"event.closed" = "%1$@ in %2$@ geschlossen";
+"event.alreadyGone" = "%1$@ war in %2$@ schon nicht mehr da";
+"event.failed" = "%1$@ in %2$@ ließ sich nicht schließen. Der Tab ist vielleicht fixiert — löse ihn oder schließe ihn selbst.";
+
+/* The knight's speech bubble */
+"knight.bubble" = "Willst du wirklich auf %@?";
+
+/* The panel's links, and the shield's right-click menu */
+"menu.open" = "Keeper öffnen";
+"menu.settings" = "Einstellungen…";
+"menu.quit" = "Keeper beenden";
+
+/* Settings */
+"checkbox.menuBar" = "In der Menüleiste anzeigen";
+"checkbox.dock" = "Im Dock anzeigen";
+"checkbox.openAtLogin" = "Keeper bei der Anmeldung öffnen";
+"settings.presence.help" = "Keeper muss irgendwo erreichbar bleiben, deshalb lässt sich der letzte der beiden Schalter, der noch an ist, nicht ausschalten.";
+
+/* About */
+"menu.about" = "Über Keeper";
+"about.tagline" = "Keeper schließt die Tabs, von denen du ferngehalten werden wolltest.";
+"about.credit" = "Ritter-Sprite von rgsdev, CC BY-SA 4.0.";
+
+/* Apps list */
+"list.apps.label" = "Apps, die du in dieser Sitzung nicht öffnest";
+"list.apps.add.placeholder" = "App hinzufügen…";
+"list.apps.choose" = "Auswählen";
+"list.apps.running" = "Gerade geöffnet";
+"list.apps.chooseOther" = "Aus „Programme“ auswählen…";
+"list.apps.refused.settings" = "Die Systemeinstellungen bleiben verfügbar — dort kannst du Keeper den Zugriff wieder entziehen.";
+"list.apps.refused.finder" = "Der Finder bleibt verfügbar; ihn auszublenden würde deinen Schreibtisch mitnehmen.";
+"list.apps.refused.self" = "Keeper bleibt verfügbar, sonst könntest du die Sitzung nicht beenden.";
+"event.appSpotted" = "%@ ist offen";
+"event.hid" = "%@ ausgeblendet";
+"event.appAlreadyGone" = "%@ war schon weg";
+"event.hidNoWindows" = "%@ hat kein Fenster zum Ausblenden";
+"event.hidFailed" = "%@ ließ sich nicht ausblenden";
+"knight.bubble.app" = "Willst du wirklich %@ öffnen?";

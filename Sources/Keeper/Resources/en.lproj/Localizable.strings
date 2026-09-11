@@ -1,0 +1,66 @@
+/* Header states */
+"state.needsAccess.title" = "Needs access";
+"state.needsAccess.subtitle" = "One permission, then you're set.";
+"state.ready.title" = "Ready";
+"state.ready.subtitle" = "Add what pulls you away.";
+"state.onDuty.title" = "On duty since %@";
+
+/* Accessibility permission */
+"permission.purpose" = "Keeper reads the address of the page in front of you to spot the sites on your list, then presses ⌘W to close that tab. Nothing leaves your Mac.";
+"permission.continue" = "Continue";
+"permission.openSettings" = "Open System Settings";
+"permission.stale" = "Already switched on? Switch Keeper off and on again in the list.";
+
+/* Site list */
+"list.label" = "Sites you won't visit this session";
+"list.locked.help" = "Locked while on duty";
+"list.add.placeholder" = "Add site…";
+"list.remove.help" = "Remove %@";
+"list.empty" = "No sites yet. Add the ones that pull you away; the knight closes them the moment they appear.";
+"quickAdd.menu" = "Presets";
+
+/* Buttons */
+"button.start" = "Start session";
+"button.stop" = "Stop session";
+"button.start.hint" = "Add at least one site or app to start.";
+
+/* Events */
+"event.spotted" = "%1$@ spotted in %2$@";
+"event.closed" = "Closed %1$@ in %2$@";
+"event.alreadyGone" = "%1$@ was already gone from %2$@";
+"event.failed" = "Couldn't close %1$@ in %2$@. The tab may be pinned; unpin it or close it yourself.";
+
+/* The knight's speech bubble */
+"knight.bubble" = "Are you trying to enter %@?";
+
+/* The panel's links, and the shield's right-click menu */
+"menu.open" = "Open Keeper";
+"menu.settings" = "Settings…";
+"menu.quit" = "Quit Keeper";
+
+/* Settings */
+"checkbox.menuBar" = "Show in menu bar";
+"checkbox.dock" = "Show in Dock";
+"checkbox.openAtLogin" = "Open Keeper at login";
+"settings.presence.help" = "Keeper has to be reachable somewhere, so whichever of these two is the last one switched on stays on.";
+
+/* About */
+"menu.about" = "About Keeper";
+"about.tagline" = "Keeper closes the tabs you told it to keep you away from.";
+"about.credit" = "Knight sprite by rgsdev, CC BY-SA 4.0.";
+
+/* Apps list */
+"list.apps.label" = "Apps you won't open this session";
+"list.apps.add.placeholder" = "Add app…";
+"list.apps.choose" = "Choose";
+"list.apps.running" = "Running now";
+"list.apps.chooseOther" = "Choose from Applications…";
+"list.apps.refused.settings" = "System Settings stays available — it's where you can take Keeper's access away.";
+"list.apps.refused.finder" = "Finder stays available; hiding it would take your desktop with it.";
+"list.apps.refused.self" = "Keeper stays available, or you couldn't stop the session.";
+"event.appSpotted" = "%@ is open";
+"event.hid" = "Hid %@";
+"event.appAlreadyGone" = "%@ had already gone";
+"event.hidNoWindows" = "%@ has no window to hide";
+"event.hidFailed" = "Couldn't hide %@";
+"knight.bubble.app" = "Are you trying to open %@?";

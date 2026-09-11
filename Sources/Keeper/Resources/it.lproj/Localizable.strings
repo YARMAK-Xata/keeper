@@ -1,0 +1,66 @@
+/* Header states */
+"state.needsAccess.title" = "Serve l'accesso";
+"state.needsAccess.subtitle" = "Un permesso e sei pronto.";
+"state.ready.title" = "Pronto";
+"state.ready.subtitle" = "Aggiungi ciò che ti distrae.";
+"state.onDuty.title" = "In servizio dalle %@";
+
+/* Accessibility permission */
+"permission.purpose" = "Keeper legge l'indirizzo della pagina che hai davanti per riconoscere i siti del tuo elenco, poi preme ⌘W e chiude quella scheda. Niente esce dal tuo Mac.";
+"permission.continue" = "Continua";
+"permission.openSettings" = "Apri Impostazioni di Sistema";
+"permission.stale" = "Già attivato? Disattiva e riattiva Keeper nell'elenco.";
+
+/* Site list */
+"list.label" = "Siti che non visiterai in questa sessione";
+"list.locked.help" = "Bloccato durante il servizio";
+"list.add.placeholder" = "Aggiungi sito…";
+"list.remove.help" = "Rimuovi %@";
+"list.empty" = "Ancora niente. Aggiungi i siti che ti distraggono: il cavaliere li chiude appena compaiono.";
+"quickAdd.menu" = "Preimpostazioni";
+
+/* Buttons */
+"button.start" = "Avvia sessione";
+"button.stop" = "Ferma sessione";
+"button.start.hint" = "Aggiungi almeno un sito o un'app per iniziare.";
+
+/* Events */
+"event.spotted" = "%1$@ individuato in %2$@";
+"event.closed" = "%1$@ chiuso in %2$@";
+"event.alreadyGone" = "%1$@ era già sparito da %2$@";
+"event.failed" = "Impossibile chiudere %1$@ in %2$@. La scheda potrebbe essere fissata: sbloccala o chiudila tu.";
+
+/* The knight's speech bubble */
+"knight.bubble" = "Stai provando a entrare su %@?";
+
+/* The panel's links, and the shield's right-click menu */
+"menu.open" = "Apri Keeper";
+"menu.settings" = "Impostazioni…";
+"menu.quit" = "Esci da Keeper";
+
+/* Settings */
+"checkbox.menuBar" = "Mostra nella barra dei menu";
+"checkbox.dock" = "Mostra nel Dock";
+"checkbox.openAtLogin" = "Apri Keeper al login";
+"settings.presence.help" = "Keeper deve restare raggiungibile da qualche parte: quello dei due interruttori che resta acceso per ultimo non si può spegnere.";
+
+/* About */
+"menu.about" = "Informazioni su Keeper";
+"about.tagline" = "Keeper chiude le schede da cui gli hai chiesto di tenerti lontano.";
+"about.credit" = "Sprite del cavaliere di rgsdev, CC BY-SA 4.0.";
+
+/* Apps list */
+"list.apps.label" = "App che non aprirai in questa sessione";
+"list.apps.add.placeholder" = "Aggiungi app…";
+"list.apps.choose" = "Scegli";
+"list.apps.running" = "Aperte ora";
+"list.apps.chooseOther" = "Scegli da Applicazioni…";
+"list.apps.refused.settings" = "Impostazioni di Sistema resta disponibile: è lì che puoi togliere l'accesso a Keeper.";
+"list.apps.refused.finder" = "Il Finder resta disponibile; nasconderlo si porterebbe via la scrivania.";
+"list.apps.refused.self" = "Keeper resta disponibile, altrimenti non potresti fermare la sessione.";
+"event.appSpotted" = "%@ è aperta";
+"event.hid" = "%@ nascosta";
+"event.appAlreadyGone" = "%@ era già sparita";
+"event.hidNoWindows" = "%@ non ha finestre da nascondere";
+"event.hidFailed" = "Impossibile nascondere %@";
+"knight.bubble.app" = "Stai provando ad aprire %@?";

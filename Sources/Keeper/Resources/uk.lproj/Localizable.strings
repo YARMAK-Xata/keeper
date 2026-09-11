@@ -1,0 +1,66 @@
+/* Header states */
+"state.needsAccess.title" = "Потрібен доступ";
+"state.needsAccess.subtitle" = "Один дозвіл — і все готово.";
+"state.ready.title" = "Готово";
+"state.ready.subtitle" = "Додайте те, що вас відволікає.";
+"state.onDuty.title" = "На варті з %@";
+
+/* Accessibility permission */
+"permission.purpose" = "Keeper читає адресу сторінки, яка перед вами, щоб помітити сайти з вашого списку, а тоді натискає ⌘W і закриває цю вкладку. Нічого не залишає ваш Mac.";
+"permission.continue" = "Продовжити";
+"permission.openSettings" = "Відкрити «Системні параметри»";
+"permission.stale" = "Уже ввімкнено? Вимкніть і знову ввімкніть Keeper у списку.";
+
+/* Site list */
+"list.label" = "Сайти, які ви не відвідуватимете цієї сесії";
+"list.locked.help" = "Заблоковано під час чергування";
+"list.add.placeholder" = "Додати сайт…";
+"list.remove.help" = "Вилучити %@";
+"list.empty" = "Поки що порожньо. Додайте сайти, які вас відволікають, — лицар закриє їх, щойно вони з'являться.";
+"quickAdd.menu" = "Набори";
+
+/* Buttons */
+"button.start" = "Почати сесію";
+"button.stop" = "Зупинити сесію";
+"button.start.hint" = "Додайте хоча б один сайт або програму, щоб почати.";
+
+/* Events */
+"event.spotted" = "%1$@ помічено у %2$@";
+"event.closed" = "Закрито %1$@ у %2$@";
+"event.alreadyGone" = "%1$@ вже зник із %2$@";
+"event.failed" = "Не вдалося закрити %1$@ у %2$@. Можливо, вкладку закріплено — відкріпіть її або закрийте самі.";
+
+/* The knight's speech bubble */
+"knight.bubble" = "Намагаєшся зайти на %@?";
+
+/* The panel's links, and the shield's right-click menu */
+"menu.open" = "Відкрити Keeper";
+"menu.settings" = "Параметри…";
+"menu.quit" = "Завершити Keeper";
+
+/* Settings */
+"checkbox.menuBar" = "Показувати в рядку меню";
+"checkbox.dock" = "Показувати в Dock";
+"checkbox.openAtLogin" = "Відкривати Keeper під час входу";
+"settings.presence.help" = "Keeper має лишатися десь доступним, тож той із цих двох перемикачів, який залишиться ввімкненим останнім, вимкнути не вдасться.";
+
+/* About */
+"menu.about" = "Про Keeper";
+"about.tagline" = "Keeper закриває вкладки, від яких ви просили вас берегти.";
+"about.credit" = "Спрайт лицаря: rgsdev, CC BY-SA 4.0.";
+
+/* Apps list */
+"list.apps.label" = "Програми, які ви не відкриватимете цієї сесії";
+"list.apps.add.placeholder" = "Додати програму…";
+"list.apps.choose" = "Вибрати";
+"list.apps.running" = "Зараз запущено";
+"list.apps.chooseOther" = "Вибрати з «Програм»…";
+"list.apps.refused.settings" = "«Системні параметри» лишаються доступними — саме там можна забрати в Keeper доступ.";
+"list.apps.refused.finder" = "Finder лишається доступним; сховати його означало б сховати й робочий стіл.";
+"list.apps.refused.self" = "Keeper лишається доступним, інакше ви не змогли б зупинити сесію.";
+"event.appSpotted" = "%@ відкрито";
+"event.hid" = "Сховано %@";
+"event.appAlreadyGone" = "%@ уже зникла";
+"event.hidNoWindows" = "%@ не має вікна, яке можна сховати";
+"event.hidFailed" = "Не вдалося сховати %@";
+"knight.bubble.app" = "Намагаєшся відкрити %@?";

@@ -1,0 +1,66 @@
+/* Header states */
+"state.needsAccess.title" = "Accès requis";
+"state.needsAccess.subtitle" = "Une autorisation, et c'est prêt.";
+"state.ready.title" = "Prêt";
+"state.ready.subtitle" = "Ajoutez ce qui vous détourne.";
+"state.onDuty.title" = "En service depuis %@";
+
+/* Accessibility permission */
+"permission.purpose" = "Keeper lit l'adresse de la page devant vous pour repérer les sites de votre liste, puis appuie sur ⌘W pour fermer cet onglet. Rien ne quitte votre Mac.";
+"permission.continue" = "Continuer";
+"permission.openSettings" = "Ouvrir Réglages Système";
+"permission.stale" = "Déjà activé ? Désactivez puis réactivez Keeper dans la liste.";
+
+/* Site list */
+"list.label" = "Sites que vous ne visiterez pas pendant cette session";
+"list.locked.help" = "Verrouillé pendant le service";
+"list.add.placeholder" = "Ajouter un site…";
+"list.remove.help" = "Retirer %@";
+"list.empty" = "Rien pour l'instant. Ajoutez les sites qui vous détournent : le chevalier les ferme dès qu'ils apparaissent.";
+"quickAdd.menu" = "Préréglages";
+
+/* Buttons */
+"button.start" = "Démarrer la session";
+"button.stop" = "Arrêter la session";
+"button.start.hint" = "Ajoutez au moins un site ou une app pour démarrer.";
+
+/* Events */
+"event.spotted" = "%1$@ repéré dans %2$@";
+"event.closed" = "%1$@ fermé dans %2$@";
+"event.alreadyGone" = "%1$@ avait déjà disparu de %2$@";
+"event.failed" = "Impossible de fermer %1$@ dans %2$@. L'onglet est peut-être épinglé : détachez-le ou fermez-le vous-même.";
+
+/* The knight's speech bubble */
+"knight.bubble" = "Tu essaies d'aller sur %@ ?";
+
+/* The panel's links, and the shield's right-click menu */
+"menu.open" = "Ouvrir Keeper";
+"menu.settings" = "Réglages…";
+"menu.quit" = "Quitter Keeper";
+
+/* Settings */
+"checkbox.menuBar" = "Afficher dans la barre des menus";
+"checkbox.dock" = "Afficher dans le Dock";
+"checkbox.openAtLogin" = "Ouvrir Keeper à l'ouverture de session";
+"settings.presence.help" = "Keeper doit rester accessible quelque part : celui des deux interrupteurs qui reste activé en dernier ne peut pas être désactivé.";
+
+/* About */
+"menu.about" = "À propos de Keeper";
+"about.tagline" = "Keeper ferme les onglets dont vous lui avez demandé de vous tenir éloigné.";
+"about.credit" = "Sprite du chevalier par rgsdev, CC BY-SA 4.0.";
+
+/* Apps list */
+"list.apps.label" = "Apps que vous n'ouvrirez pas pendant cette session";
+"list.apps.add.placeholder" = "Ajouter une app…";
+"list.apps.choose" = "Choisir";
+"list.apps.running" = "Ouvertes maintenant";
+"list.apps.chooseOther" = "Choisir dans Applications…";
+"list.apps.refused.settings" = "Réglages Système reste disponible : c'est là que vous pouvez retirer son accès à Keeper.";
+"list.apps.refused.finder" = "Le Finder reste disponible ; le masquer emporterait votre bureau avec lui.";
+"list.apps.refused.self" = "Keeper reste disponible, sinon vous ne pourriez pas arrêter la session.";
+"event.appSpotted" = "%@ est ouverte";
+"event.hid" = "%@ masquée";
+"event.appAlreadyGone" = "%@ avait déjà disparu";
+"event.hidNoWindows" = "%@ n'a aucune fenêtre à masquer";
+"event.hidFailed" = "Impossible de masquer %@";
+"knight.bubble.app" = "Tu essaies d'ouvrir %@ ?";

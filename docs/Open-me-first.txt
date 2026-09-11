@@ -1,0 +1,112 @@
+KEEPER
+======
+
+Keeper closes browser tabs you have told it to keep you away from. You pick the
+sites you do not want to visit, press Start session, and a pixel-art knight walks
+across the screen and closes those tabs whenever they appear.
+
+No account, no sign-in, no internet connection, no subscription. Nothing you type
+into it leaves your Mac.
+
+
+HOW TO INSTALL
+--------------
+
+1. Drag the Keeper icon onto the Applications folder in this window.
+2. Open your Applications folder and double-click Keeper.
+
+
+THE FIRST TIME YOU OPEN IT
+--------------------------
+
+macOS will say it cannot verify the developer. That is because Keeper is not sold
+through the App Store, not because there is anything wrong with it.
+
+1. Click Done on that message.
+2. Open System Settings, choose Privacy & Security, and scroll to the bottom.
+3. Next to the line about Keeper, click Open Anyway.
+4. Confirm with your password or Touch ID, then open Keeper again.
+
+You only ever do this once.
+
+
+GIVING KEEPER PERMISSION
+------------------------
+
+Keeper needs one permission: Accessibility. That is what lets it see which page a
+browser is showing and close the tab. It will ask you on first launch.
+
+1. Click Continue.
+2. Switch Keeper on in the list that opens.
+3. Quit Keeper and open it again.
+
+If the switch is already on and Keeper still says it has no access, switch it off
+and on again.
+
+
+USING IT
+--------
+
+Type a site, or paste the address of a page you keep going back to, or click one
+of the quick-add buttons. Then press Start session. The list locks while a session
+runs, and the knight appears in the menu bar at the top of the screen. Press Stop
+session when you are done.
+
+
+=========================================================================
+
+
+KEEPER (українською)
+====================
+
+Keeper закриває вкладки браузера, від яких ви просили вас берегти. Ви обираєте
+сайти, які не хочете відвідувати, натискаєте «Почати сесію», і піксельний лицар
+закриває ці вкладки щоразу, коли вони з'являються.
+
+Без акаунта, без входу, без інтернету, без підписки. Нічого з того, що ви вводите,
+не залишає ваш Mac.
+
+
+ЯК ВСТАНОВИТИ
+-------------
+
+1. Перетягніть значок Keeper на теку «Програми» в цьому вікні.
+2. Відкрийте теку «Програми» і двічі клацніть Keeper.
+
+
+ПЕРШИЙ ЗАПУСК
+-------------
+
+macOS скаже, що не може перевірити розробника. Це тому, що Keeper не продається
+в App Store, а не тому, що з ним щось не так.
+
+1. Натисніть «Готово».
+2. Відкрийте «Системні параметри», розділ «Конфіденційність і безпека», і
+   прогорніть униз.
+3. Біля рядка про Keeper натисніть «Усе одно відкрити».
+4. Підтвердіть паролем або Touch ID і відкрийте Keeper знову.
+
+Це робиться лише один раз.
+
+
+ДОЗВІЛ
+------
+
+Keeper потребує одного дозволу: «Універсальний доступ». Саме він дозволяє бачити,
+яку сторінку показує браузер, і закрити вкладку. Keeper попросить його одразу.
+
+1. Натисніть «Продовжити».
+2. Увімкніть Keeper у списку, що відкриється.
+3. Завершіть Keeper і відкрийте знову.
+
+Якщо перемикач уже ввімкнено, а Keeper усе одно каже, що доступу немає, вимкніть
+і знову ввімкніть його.
+
+
+ЯК КОРИСТУВАТИСЯ
+----------------
+
+Введіть сайт, вставте адресу сторінки, на яку постійно повертаєтесь, або натисніть
+одну з кнопок швидкого додавання. Тоді натисніть «Почати сесію». Список блокується
+на час сесії, а лицар з'являється в рядку меню вгорі екрана. Натисніть «Зупинити
+сесію», коли закінчите.

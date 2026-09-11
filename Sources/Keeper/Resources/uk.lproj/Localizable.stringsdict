@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>state.onDuty.subtitle</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@sites@</string>
+		<key>sites</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>Охороняю %lld сайти</string>
+			<key>many</key>
+			<string>Охороняю %lld сайтів</string>
+			<key>one</key>
+			<string>Охороняю %lld сайт</string>
+			<key>other</key>
+			<string>Охороняю %lld сайта</string>
+		</dict>
+	</dict>
+	<key>state.onDuty.subtitle.apps</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@apps@</string>
+		<key>apps</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>Охороняю %lld програми</string>
+			<key>many</key>
+			<string>Охороняю %lld програм</string>
+			<key>one</key>
+			<string>Охороняю %lld програму</string>
+			<key>other</key>
+			<string>Охороняю %lld програми</string>
+		</dict>
+	</dict>
+	<key>state.onDuty.subtitle.both</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Охороняю %1$#@sites@ і %2$#@apps@</string>
+		<key>apps</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld програми</string>
+			<key>many</key>
+			<string>%lld програм</string>
+			<key>one</key>
+			<string>%lld програму</string>
+			<key>other</key>
+			<string>%lld програми</string>
+		</dict>
+		<key>sites</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>few</key>
+			<string>%lld сайти</string>
+			<key>many</key>
+			<string>%lld сайтів</string>
+			<key>one</key>
+			<string>%lld сайт</string>
+			<key>other</key>
+			<string>%lld сайта</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
