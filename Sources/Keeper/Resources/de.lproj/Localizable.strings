@@ -42,7 +42,7 @@
 "checkbox.menuBar" = "In der Menüleiste anzeigen";
 "checkbox.dock" = "Im Dock anzeigen";
 "checkbox.openAtLogin" = "Keeper bei der Anmeldung öffnen";
-"settings.presence.help" = "Keeper muss irgendwo erreichbar bleiben, deshalb lässt sich der letzte der beiden Schalter, der noch an ist, nicht ausschalten.";
+"settings.presence.help" = "Keeper muss irgendwo erreichbar bleiben, deshalb bleibt der von beiden Schaltern an, der zuletzt eingeschaltet wurde.";
 
 /* About */
 "menu.about" = "Über Keeper";

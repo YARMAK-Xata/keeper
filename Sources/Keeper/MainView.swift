@@ -2,8 +2,8 @@ import AppKit
 import SwiftUI
 
 /// Keeper's window. It shows the Accessibility step on a first launch, and after that the same
-/// list the menu bar panel shows, with room to breathe — the same `SiteListView`, the same
-/// header, the same button, at 420 pt instead of 300.
+/// task the menu bar panel shows, with room to breathe — literally the same `TaskSection`, the
+/// same header and the same button, set out on the roomier of the two surfaces in `Metrics`.
 ///
 /// Nothing lives only here: everything in this window is also in the panel, so closing it never
 /// takes a capability away. The settings switches moved to Settings, where they stop competing
@@ -24,22 +24,27 @@ struct MainView: View {
     private let trustCheck = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     private let clockTick = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
 
+    private let surface = Metrics.Surface.window
+
     private var sites: SiteList { SiteList(text: storedText) }
     private var apps: AppList { AppList(text: storedApps) }
     private var state: SurfaceState { .current(trusted: trusted, running: session.isRunning) }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: surface.sectionSpacing) {
             StateHeader(title: state.title(startedAt: session.startedAt),
                         subtitle: state.subtitle(siteCount: session.siteCount,
                                                  appCount: session.appCount))
             switch state {
             case .needsAccess: PermissionSection(alertShown: $alertShown)
-            case .ready, .onDuty: task
+            case .ready, .onDuty:
+                TaskSection(session: session, surface: surface,
+                            storedText: $storedText, storedApps: $storedApps,
+                            draft: $draft, now: tick)
             }
         }
-        .padding(20)
-        .frame(width: 420)
+        .padding(surface.margin)
+        .frame(width: surface.width)
         // The title bar has always been glass while the body underneath was a flat grey, which
         // put a seam across the window. The same material behind the whole thing removes it.
         .background(WindowGlass())
@@ -49,34 +54,4 @@ struct MainView: View {
         .onChange(of: session.lastEvent) { _, _ in tick = Date() }
     }
 
-    private var task: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            // A locked group with nothing in it would be a label over an empty box, so a session
-            // guarding only sites shows only sites, and the other way round.
-            if !(session.isRunning && sites.isEmpty) {
-                SiteListView(sites: sites, locked: session.isRunning, draft: $draft,
-                             onAdd: { SiteStore.add($0, to: &storedText); draft = "" },
-                             onRemove: { SiteStore.remove($0, from: &storedText) })
-            }
-            if !(session.isRunning && apps.isEmpty) {
-                AppListView(apps: apps, locked: session.isRunning,
-                            onAdd: { AppStore.add($0, to: &storedApps) },
-                            onRemove: { AppStore.remove($0, from: &storedApps) })
-            }
-            if let event = session.lastEvent {
-                LatestEvent(event: event, now: max(tick, event.at))
-            }
-            if session.isRunning {
-                PrimaryButton(label: L.t("button.stop"), tint: .red) { session.stop() }
-            } else {
-                PrimaryButton(label: L.t("button.start"), isDefault: true,
-                              enabled: !(sites.isEmpty && apps.isEmpty)) {
-                    session.start(sites: sites, apps: apps)
-                }
-                if sites.isEmpty && apps.isEmpty {
-                    Text(L.t("button.start.hint")).font(.callout).foregroundStyle(.secondary)
-                }
-            }
-        }
-    }
 }

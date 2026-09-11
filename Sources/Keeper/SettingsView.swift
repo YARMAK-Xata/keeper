@@ -22,7 +22,7 @@ struct SettingsView: View {
                 ))
             } footer: {
                 Text(L.t("settings.presence.help"))
-                    .font(.callout).foregroundStyle(.secondary)
+                    .font(Metrics.Typography.secondary).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
@@ -36,12 +36,13 @@ struct SettingsView: View {
 
             Section {
                 Text(L.t("about.credit"))
-                    .font(.callout).foregroundStyle(.secondary)
+                    .font(Metrics.Typography.secondary).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
         .formStyle(.grouped)
-        .frame(width: 420)
+        // The same width as the window, so the two never read as different-sized apps.
+        .frame(width: Metrics.Surface.window.width)
         .fixedSize(horizontal: false, vertical: true)
         .onAppear { presence = Presence() }
     }

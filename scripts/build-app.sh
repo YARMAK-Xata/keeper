@@ -44,8 +44,8 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleName</key><string>Keeper</string>
   <key>CFBundleDisplayName</key><string>Keeper</string>
   <key>CFBundleIdentifier</key><string>dev.keeper.Keeper</string>
-  <key>CFBundleVersion</key><string>8</string>
-  <key>CFBundleShortVersionString</key><string>1.7</string>
+  <key>CFBundleVersion</key><string>9</string>
+  <key>CFBundleShortVersionString</key><string>1.8</string>
   <key>CFBundleExecutable</key><string>Keeper</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
@@ -65,14 +65,22 @@ PLIST
 #
 # The hardened runtime is on because this app holds Accessibility access: it stops other code
 # being injected into a process that can read every browser window and press keys in it. It is
-# also what notarization would require if Keeper ever gets a Developer ID.
-IDENTITY=$(security find-identity -v -p codesigning 2>/dev/null | awk -F'"' '/Apple Development/ {print $2; exit}' || true)
-if [[ -z "$IDENTITY" ]] && security find-certificate -c "Keeper Local Signing" >/dev/null 2>&1; then
-  IDENTITY="Keeper Local Signing"
-fi
-codesign --force --sign "${IDENTITY:--}" --identifier dev.keeper.Keeper --options runtime --timestamp=none "$APP"
-echo "Built $APP (signed with: ${IDENTITY:-ad-hoc})"
-if [[ -z "$IDENTITY" ]]; then
-  echo "  Ad-hoc signed: macOS will ask for Accessibility access again after every rebuild."
-  echo "  Run scripts/make-signing-cert.sh once to stop that."
-fi
+# also what notarization requires, and notarization is the only thing that stops macOS telling
+# whoever you send this to that Apple could not check it for malware.
+source "$(dirname "$0")/signing-identity.sh"
+
+codesign --force --sign "$IDENTITY" --identifier dev.keeper.Keeper --options runtime \
+  "${TIMESTAMP_FLAG[@]}" "$APP"
+echo "Built $APP (signed with: $IDENTITY)"
+
+case "$SIGNING_KIND" in
+  adhoc)
+    echo "  Ad-hoc signed: macOS will ask for Accessibility access again after every rebuild."
+    echo "  Run scripts/make-signing-cert.sh once to stop that."
+    ;;
+  local|development)
+    echo "  This signature works on this Mac. On anyone else's, macOS will refuse to open Keeper"
+    echo "  and say Apple could not verify it is free of malware — only notarization removes that,"
+    echo "  and only a Developer ID certificate can be notarized. See scripts/notarize.sh."
+    ;;
+esac

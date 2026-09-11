@@ -4,8 +4,9 @@ import SwiftUI
 /// The menu bar panel: the whole task under the shield. Everything the app does is here, so the
 /// window never has to be open for Keeper to be used or stopped.
 ///
-/// 300 pt wide, sized by its content in height. The links along the bottom are the only
-/// navigation, which is why Quit is one of them: the panel must never be a dead end.
+/// Sized by its content in height, and by `Metrics.Surface.panel` in width. The links along the
+/// bottom are the only navigation, which is why Quit is one of them: the panel must never be a
+/// dead end.
 struct PanelView: View {
     @ObservedObject var session: SessionController
 
@@ -24,70 +25,66 @@ struct PanelView: View {
     private let trustCheck = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     private let clockTick = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
 
+    private let surface = Metrics.Surface.panel
+
     private var sites: SiteList { SiteList(text: storedText) }
     private var apps: AppList { AppList(text: storedApps) }
     private var state: SurfaceState { .current(trusted: trusted, running: session.isRunning) }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: surface.sectionSpacing) {
             StateHeader(title: state.title(startedAt: session.startedAt),
                         subtitle: state.subtitle(siteCount: session.siteCount,
                                                  appCount: session.appCount))
             switch state {
             case .needsAccess: PermissionSection(alertShown: $alertShown)
-            case .ready, .onDuty: task
+            case .ready, .onDuty:
+                TaskSection(session: session, surface: surface,
+                            storedText: $storedText, storedApps: $storedApps,
+                            draft: $draft, now: tick)
             }
             Divider()
             links
         }
-        .padding(14)
-        .frame(width: 300)
+        .padding(surface.margin)
+        .frame(width: surface.width)
         .onReceive(trustCheck) { _ in trusted = Permissions.isTrusted }
         .onReceive(clockTick) { now in tick = now }
         .onChange(of: session.lastEvent) { _, _ in tick = Date() }
     }
 
-    private var task: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            // A locked group with nothing in it would be a label over an empty box, so a session
-            // guarding only sites shows only sites, and the other way round.
-            if !(session.isRunning && sites.isEmpty) {
-                SiteListView(sites: sites, locked: session.isRunning, draft: $draft,
-                             onAdd: { SiteStore.add($0, to: &storedText); draft = "" },
-                             onRemove: { SiteStore.remove($0, from: &storedText) })
-            }
-            if !(session.isRunning && apps.isEmpty) {
-                AppListView(apps: apps, locked: session.isRunning,
-                            onAdd: { AppStore.add($0, to: &storedApps) },
-                            onRemove: { AppStore.remove($0, from: &storedApps) })
-            }
-            if let event = session.lastEvent {
-                LatestEvent(event: event, now: max(tick, event.at))
-            }
-            if session.isRunning {
-                PrimaryButton(label: L.t("button.stop"), tint: .red) { session.stop() }
-            } else {
-                PrimaryButton(label: L.t("button.start"), isDefault: true,
-                              enabled: !(sites.isEmpty && apps.isEmpty)) {
-                    session.start(sites: sites, apps: apps)
-                }
-                if sites.isEmpty && apps.isEmpty {
-                    Text(L.t("button.start.hint")).font(.callout).foregroundStyle(.secondary)
-                }
-            }
-        }
-    }
-
+    /// The three links, on one row where they fit and two where they do not.
+    ///
+    /// They were justified edge to edge across a fixed-width popover, which held in English and
+    /// nowhere else: "Keeper öffnen · Einstellungen… · Keeper beenden" wants 274 points, the
+    /// Russian 291 and the Ukrainian 297, against the 272 the panel had. The overflow did not
+    /// wrap, it pushed Quit off the edge — and Quit is the one link the panel cannot afford to
+    /// lose, because it is the only way out of a dead end.
+    ///
+    /// The panel is wider now and all seven fit again, but a fixed row that happens to fit today
+    /// is the same bug waiting for the eighth language. `ViewThatFits` measures instead of
+    /// assuming: it takes the single row when the row is genuinely wide enough, and drops Quit to
+    /// its own line when it is not.
     private var links: some View {
-        HStack(spacing: 0) {
-            Button(L.t("menu.open"), action: onOpenWindow)
-            Spacer(minLength: 8)
-            Button(L.t("menu.settings"), action: onOpenSettings)
-            Spacer(minLength: 8)
-            Button(L.t("menu.quit"), action: onQuit)
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 0) {
+                Button(L.t("menu.open"), action: onOpenWindow)
+                Spacer(minLength: Metrics.Space.step)
+                Button(L.t("menu.settings"), action: onOpenSettings)
+                Spacer(minLength: Metrics.Space.step)
+                Button(L.t("menu.quit"), action: onQuit)
+            }
+            VStack(alignment: .leading, spacing: Metrics.Space.snug) {
+                HStack(spacing: 0) {
+                    Button(L.t("menu.open"), action: onOpenWindow)
+                    Spacer(minLength: Metrics.Space.step)
+                    Button(L.t("menu.settings"), action: onOpenSettings)
+                }
+                Button(L.t("menu.quit"), action: onQuit)
+            }
         }
         .buttonStyle(.link)
-        .font(.callout)
+        .font(Metrics.Typography.secondary)
     }
 }
 
@@ -98,7 +95,7 @@ struct LatestEvent: View {
 
     var body: some View {
         Text("\(event.text) · \(L.ago(event.at, from: now))")
-            .font(.callout)
+            .font(Metrics.Typography.secondary)
             .foregroundStyle(.secondary)
             .fixedSize(horizontal: false, vertical: true)
     }
@@ -111,8 +108,9 @@ struct PermissionSection: View {
     @Binding var alertShown: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: Metrics.Space.gap) {
             Text(L.t("permission.purpose"))
+                .font(Metrics.Typography.body)
                 .fixedSize(horizontal: false, vertical: true)
             PrimaryButton(label: L.t("permission.continue"), isDefault: true) {
                 Permissions.requestTrust()
@@ -125,7 +123,7 @@ struct PermissionSection: View {
                 // the previous copy stays switched on and stops working. Say so rather than
                 // leaving people to wonder why the switch is on and Keeper disagrees.
                 Text(L.t("permission.stale"))
-                    .font(.callout).foregroundStyle(.secondary)
+                    .font(Metrics.Typography.secondary).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }

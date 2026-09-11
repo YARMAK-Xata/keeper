@@ -42,7 +42,7 @@
 "checkbox.menuBar" = "Pokazuj na pasku menu";
 "checkbox.dock" = "Pokazuj w Docku";
 "checkbox.openAtLogin" = "Otwieraj Keeper przy logowaniu";
-"settings.presence.help" = "Keeper musi być gdzieś dostępny, więc tego z dwóch przełączników, który pozostanie włączony jako ostatni, nie da się wyłączyć.";
+"settings.presence.help" = "Keeper musi być gdzieś dostępny, więc ten z dwóch przełączników, który zostanie włączony jako ostatni, pozostaje włączony.";
 
 /* About */
 "menu.about" = "Keeper — informacje";

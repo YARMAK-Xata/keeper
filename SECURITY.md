@@ -93,11 +93,14 @@ the switch off unregisters it.
 **Keeper is not sandboxed, and cannot be.** The Accessibility API is not available to a sandboxed
 app. This is the same position every distraction blocker and window manager on the Mac is in.
 
-**It is signed but not notarized.** Notarizing needs a paid Apple Developer account. So the first
-time you open it, macOS says it cannot verify the developer and you clear that once through
-System Settings → Privacy & Security → Open Anyway. That warning is the system telling you the
-truth: Apple has not scanned this build. If you would rather not take that on faith, build it
-yourself — `scripts/build-app.sh` — which is the same source you are reading.
+**It is signed but not notarized.** Notarization needs a Developer ID certificate, which needs
+the paid Apple Developer Program. So the first time you open it, macOS says Apple could not verify
+it is free of malware and offers to move it to the Trash; since macOS 15 there is no
+Control-click bypass, and you clear it once through System Settings → Privacy & Security → Open
+Anyway. That warning is the system telling you the truth, and you should read it as such: Apple
+has not scanned this build, and no amount of packaging on our side changes that. If you would
+rather not take it on faith, build it yourself — `scripts/build-app.sh` — from the same source you
+are reading.
 
 To see what you have before you open it:
 

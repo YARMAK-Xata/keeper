@@ -86,8 +86,8 @@ struct AppListView: View {
 
     var body: some View {
         ListGroup(label: L.t("list.apps.label"), locked: locked) {
-            if apps.count > 8 {
-                ScrollView { rows }.frame(height: 240)
+            if apps.count > Metrics.Group.maxVisibleRows {
+                ScrollView { rows }.frame(height: Metrics.Group.scrollHeight)
             } else {
                 rows
             }
@@ -108,9 +108,10 @@ struct AppListView: View {
 
     private func row(_ rule: AppRule) -> some View {
         let described = AppCatalog.describe(rule)
-        return HStack(spacing: 8) {
-            icon(described.icon)
+        return HStack(spacing: Metrics.Row.iconGap) {
+            RowIcon(kind: .app(described.icon))
             Text(described.name)
+                .font(Metrics.Typography.body)
                 .foregroundStyle(locked ? AnyShapeStyle(.secondary) : AnyShapeStyle(.primary))
                 .lineLimit(1)
                 .truncationMode(.middle)
@@ -119,25 +120,17 @@ struct AppListView: View {
                 RemoveButton(help: L.t("list.remove.help", described.name)) { onRemove(rule.bundleID) }
             }
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
+        .listRowInsets()
     }
 
-    @ViewBuilder
-    private func icon(_ image: NSImage?) -> some View {
-        if let image {
-            Image(nsImage: image).resizable().frame(width: 16, height: 16)
-        } else {
-            // Installed once, gone now. A placeholder keeps the names in one column.
-            Image(systemName: "questionmark.app.dashed")
-                .foregroundStyle(.secondary)
-                .frame(width: 16, height: 16)
-        }
-    }
-
+    /// The same shape as the rows above it, with the plus in the icon slot — the sites list's add
+    /// row is built the same way, which is what keeps one text column down the whole surface.
     private var addRow: some View {
-        HStack(spacing: 6) {
-            Text(L.t("list.apps.add.placeholder")).foregroundStyle(.secondary)
+        HStack(spacing: Metrics.Row.iconGap) {
+            RowIcon(kind: .symbol("plus"))
+            Text(L.t("list.apps.add.placeholder"))
+                .font(Metrics.Typography.body)
+                .foregroundStyle(.secondary)
             Spacer(minLength: 0)
             Menu(L.t("list.apps.choose")) {
                 Section(L.t("list.apps.running")) {
@@ -153,15 +146,17 @@ struct AppListView: View {
             }
             .menuStyle(.borderlessButton)
             .fixedSize()
-            .font(.callout)
+            .font(Metrics.Typography.body)
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
+        .listRowInsets()
     }
 
     private func entryLabel(_ entry: AppCatalog.Entry) -> some View {
         HStack {
-            if let icon = entry.icon { Image(nsImage: icon).resizable().frame(width: 16, height: 16) }
+            if let icon = entry.icon {
+                Image(nsImage: icon).resizable()
+                    .frame(width: Metrics.Row.iconSize, height: Metrics.Row.iconSize)
+            }
             Text(entry.name)
         }
     }

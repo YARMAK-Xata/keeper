@@ -2,8 +2,8 @@ import AppKit
 import SwiftUI
 
 /// The pieces the panel and the window both draw. They are shared rather than duplicated so the
-/// two surfaces cannot drift apart: one list, one header, one button, rendered at 300 pt in the
-/// menu bar panel and at 420 pt in the window.
+/// two surfaces cannot drift apart: one list, one header, one button, rendered at the panel's
+/// width and the window's. Every number in this file comes from `Metrics`.
 
 // MARK: - Header
 
@@ -14,14 +14,15 @@ struct StateHeader: View {
     let subtitle: String
 
     var body: some View {
-        HStack(alignment: .center, spacing: 10) {
+        HStack(alignment: .center, spacing: Metrics.Space.gap) {
             KnightBadge()
                 .frame(width: KnightSprite.characterTightBox.width * 2,
                        height: KnightSprite.characterTightBox.height * 2)
                 .accessibilityLabel("Keeper")
-            VStack(alignment: .leading, spacing: 1) {
-                Text(title).font(.system(size: 14, weight: .semibold))
+            VStack(alignment: .leading, spacing: Metrics.Space.hair) {
+                Text(title).font(Metrics.Typography.title)
                 Text(subtitle)
+                    .font(Metrics.Typography.body)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -40,8 +41,8 @@ struct ListGroup<Content: View>: View {
     @ViewBuilder var content: Content
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 5) {
+        VStack(alignment: .leading, spacing: Metrics.Group.labelGap) {
+            HStack(spacing: Metrics.Space.tight) {
                 Text(label)
                 if locked {
                     Image(systemName: "lock.fill")
@@ -50,14 +51,63 @@ struct ListGroup<Content: View>: View {
                         .accessibilityLabel(L.t("list.locked.help"))
                 }
             }
-            .font(.callout)
+            .font(Metrics.Typography.secondary)
             .foregroundStyle(.secondary)
             .fixedSize(horizontal: false, vertical: true)
 
             VStack(alignment: .leading, spacing: 0) { content }
-                .background(RoundedRectangle(cornerRadius: 8).fill(Color(nsColor: .controlBackgroundColor)))
-                .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(Color(nsColor: .separatorColor)))
+                .background(RoundedRectangle(cornerRadius: Metrics.Group.cornerRadius)
+                    .fill(Color(nsColor: .controlBackgroundColor)))
+                .overlay(RoundedRectangle(cornerRadius: Metrics.Group.cornerRadius)
+                    .strokeBorder(Color(nsColor: .separatorColor)))
         }
+    }
+}
+
+/// The icon slot at the head of every row in either list.
+///
+/// It exists so the two lists share one text column. An app row has always carried the app's own
+/// icon; a site row carried nothing, so inside two identically-drawn boxes the text of one group
+/// started twenty-four points further left than the other and the pair read as two unrelated
+/// things. A globe for a site and a plus for the add row fill the slot, and the column lines up.
+///
+/// Symbols come from SF Symbols, the same set the lock and the ⊖ already come from.
+struct RowIcon: View {
+    enum Kind {
+        /// An application's own icon, or a placeholder if it is no longer installed.
+        case app(NSImage?)
+        /// An SF Symbol, drawn in the secondary colour so it recedes behind the text.
+        case symbol(String)
+    }
+
+    let kind: Kind
+
+    var body: some View {
+        content.frame(width: Metrics.Row.iconSize, height: Metrics.Row.iconSize)
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch kind {
+        case .app(let image):
+            if let image {
+                Image(nsImage: image).resizable()
+            } else {
+                // Installed once, gone now. A placeholder keeps the names in one column.
+                Image(systemName: "questionmark.app.dashed").foregroundStyle(.secondary)
+            }
+        case .symbol(let name):
+            Image(systemName: name).foregroundStyle(.secondary)
+        }
+    }
+}
+
+extension View {
+    /// The padding every row in either list wears, on both surfaces. A row is a row: the density
+    /// difference between the window and the panel is in the frame around the lists, never here.
+    func listRowInsets() -> some View {
+        padding(.horizontal, Metrics.Row.horizontalInset)
+            .padding(.vertical, Metrics.Row.verticalInset)
     }
 }
 
@@ -92,9 +142,8 @@ struct SiteListView: View {
 
     var body: some View {
         ListGroup(label: L.t("list.label"), locked: locked) {
-            if sites.count > 8 {
-                // Past eight sites the list would push the button off a short screen.
-                ScrollView { rows }.frame(height: 240)
+            if sites.count > Metrics.Group.maxVisibleRows {
+                                ScrollView { rows }.frame(height: Metrics.Group.scrollHeight)
             } else {
                 rows
             }
@@ -104,10 +153,12 @@ struct SiteListView: View {
     @ViewBuilder
     private var rows: some View {
         if sites.isEmpty {
+            // A paragraph rather than a row: it spans the box, so it takes the box's inset and
+            // not the text column the rows line up on.
             Text(L.t("list.empty"))
-                .font(.callout).foregroundStyle(.secondary)
+                .font(Metrics.Typography.secondary).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(10)
+                .padding(Metrics.Row.horizontalInset)
         }
         ForEach(Array(sites.entries.enumerated()), id: \.element) { index, entry in
             if index > 0 { Divider() }
@@ -120,8 +171,10 @@ struct SiteListView: View {
     }
 
     private func row(_ entry: String) -> some View {
-        HStack(spacing: 8) {
+        HStack(spacing: Metrics.Row.iconGap) {
+            RowIcon(kind: .symbol("globe"))
             Text(entry)
+                .font(Metrics.Typography.body)
                 .foregroundStyle(locked ? AnyShapeStyle(.secondary) : AnyShapeStyle(.primary))
                 .textSelection(.enabled)
                 .lineLimit(1)
@@ -131,14 +184,17 @@ struct SiteListView: View {
                 RemoveButton(help: L.t("list.remove.help", entry)) { onRemove(entry) }
             }
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
+        .listRowInsets()
     }
 
+    /// The last row of the group, in the same shape as the ones above it: the plus stands in the
+    /// icon slot so the field begins on the text column rather than out on its own.
     private var addRow: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: Metrics.Row.iconGap) {
+            RowIcon(kind: .symbol("plus"))
             TextField(L.t("list.add.placeholder"), text: $draft)
                 .textFieldStyle(.plain)
+                .font(Metrics.Typography.body)
                 .onSubmit {
                     onAdd(draft)
                     draft = ""
@@ -151,11 +207,12 @@ struct SiteListView: View {
                 }
                 .menuStyle(.borderlessButton)
                 .fixedSize()
-                .font(.callout)
+                // The field beside it is body; a menu one size down on the same line was the
+                // most visible mismatch on either surface.
+                .font(Metrics.Typography.body)
             }
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
+        .listRowInsets()
     }
 }
 

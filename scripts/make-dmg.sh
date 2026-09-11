@@ -21,6 +21,19 @@ ln -s /Applications "$STAGE/Applications"
 cp docs/Open-me-first.txt "$STAGE/Open me first.txt"
 cp Assets/AppIcon.icns "$STAGE/.VolumeIcon.icns"
 
+# The window's background carries the one instruction nobody can guess: what to do when macOS
+# refuses to open Keeper the first time. A text file beside the icon was not enough — there is an
+# app right there to double-click, and that is what people do.
+mkdir -p "$STAGE/.background"
+swift scripts/make-dmg-background.swift build/dmg-background >/dev/null
+cp build/dmg-background.png "$STAGE/.background/background.png"
+cp build/dmg-background@2x.png "$STAGE/.background/background@2x.png"
+# One file carrying both resolutions, so the text is sharp on a retina display and right-sized on
+# a Mac without one.
+tiffutil -cathidpicheck build/dmg-background.png build/dmg-background@2x.png \
+  -out "$STAGE/.background/background.tiff" >/dev/null 2>&1
+rm -f "$STAGE/.background/background.png" "$STAGE/.background/background@2x.png"
+
 hdiutil create -volname "$VOLUME" -srcfolder "$STAGE" -ov -format UDRW -fs HFS+ build/rw.dmg >/dev/null
 MOUNT=$(hdiutil attach build/rw.dmg -nobrowse -noautoopen | tail -1 | cut -f3-)
 
@@ -33,14 +46,18 @@ tell application "Finder"
     set current view of container window to icon view
     set toolbar visible of container window to false
     set statusbar visible of container window to false
-    set the bounds of container window to {240, 140, 780, 520}
+    -- 28 points taller than the artwork, which is the title bar Finder puts above it.
+    set the bounds of container window to {200, 90, 840, 708}
     set options to the icon view options of container window
     set arrangement of options to not arranged
     set icon size of options to 96
     set text size of options to 12
-    set position of item "Keeper.app" of container window to {140, 150}
-    set position of item "Applications" of container window to {400, 150}
-    set position of item "Open me first.txt" of container window to {270, 285}
+    set background picture of options to file ".background:background.tiff"
+    -- These three match the artwork: the arrow is drawn between the first two, and the note sits
+    -- under the line that points at it.
+    set position of item "Keeper.app" of container window to {170, 112}
+    set position of item "Applications" of container window to {470, 112}
+    set position of item "Open me first.txt" of container window to {320, 487}
     update without registering applications
     delay 1
     close
@@ -54,4 +71,18 @@ hdiutil convert build/rw.dmg -format UDZO -imagekey zlib-level=9 -o "$DMG" >/dev
 rm -rf build/rw.dmg "$STAGE"
 
 echo "Built $DMG ($(du -h "$DMG" | cut -f1))"
-echo "Send that one file. Whoever opens it drags Keeper onto Applications."
+
+# With a Developer ID in the keychain the image is worth nothing until Apple has seen it, so go
+# straight on and notarize. Without one, say plainly what the person receiving this will meet.
+source scripts/signing-identity.sh
+if [[ "$SIGNING_KIND" == "developer-id" ]]; then
+  scripts/notarize.sh "$DMG"
+else
+  echo "Send that one file. Whoever opens it drags Keeper onto Applications."
+  echo
+  echo "  Not notarized. On another Mac this opens to \"Apple could not verify that Keeper is"
+  echo "  free of malware\", offering only Move to Trash and Done — and since macOS 15 there is"
+  echo "  no Control-click bypass, so they must go to System Settings → Privacy & Security and"
+  echo "  click Open Anyway. docs/Open-me-first.txt walks through it in all seven languages."
+  echo "  To remove the warning entirely, run scripts/notarize.sh to see what it needs."
+fi

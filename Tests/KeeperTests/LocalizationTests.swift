@@ -157,6 +157,27 @@ final class LocalizationTests: XCTestCase {
         }
     }
 
+    /// The note inside the disk image is the first thing anyone who is sent Keeper reads, and it
+    /// carries the one instruction they cannot work out for themselves — the Gatekeeper dance an
+    /// app signed outside the App Store needs before it will open at all. An app that speaks
+    /// seven languages behind install instructions in two is a friend in Warsaw stuck on step one.
+    func testTheDiskImageNoteSpeaksEveryLanguageTheAppDoes() throws {
+        // Each language's own heading in the note. A new language with no entry here fails, which
+        // is the point: the note has to be written before the release is built.
+        let headings = [
+            "en": "KEEPER\n======", "uk": "KEEPER (українською)", "ru": "KEEPER (Русский)",
+            "de": "KEEPER (Deutsch)", "fr": "KEEPER (Français)", "it": "KEEPER (Italiano)",
+            "pl": "KEEPER (Polski)",
+        ]
+        let note = try String(contentsOf: Self.root.appending(path: "docs/Open-me-first.txt"),
+                              encoding: .utf8)
+        for language in Self.languages {
+            let heading = try XCTUnwrap(headings[language],
+                                        "\(language) is translated but has no section in the note")
+            XCTAssertTrue(note.contains(heading), "the note has no \(language) section")
+        }
+    }
+
     /// A language only reaches the user if the app bundle says the app speaks it: macOS picks the
     /// best match from `CFBundleLocalizations` against the user's language order, and a folder the
     /// list does not mention is never chosen. The two have to be kept in step by hand, so this
